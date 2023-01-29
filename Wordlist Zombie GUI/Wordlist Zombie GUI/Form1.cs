@@ -2,16 +2,11 @@ using System;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Wordlist_Zombie_GUI
 {
     public partial class Form1 : Form
     {
-        private Thread trd;
-        private delegate void SafeCallDelegate(string text);
-
         public Form1()
         {
             InitializeComponent();

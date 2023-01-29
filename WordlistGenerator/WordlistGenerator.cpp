@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#define MAX_OUTSTR_LEN 1024*1024 //This could be bigger, could be smaller.  Doesn't matter to me.
+
 struct markovRootStruct {
 	unsigned long chr;
 	unsigned char chrmap;
@@ -150,7 +152,7 @@ int main(int argc, char** argv)
 	std::cout << "Outputting results!";
 	std::ofstream outfile(output_file_path);
 
-	unsigned char outstr[1024]; //We limit it to 1024 right now just cuz
+	unsigned char* outstr = (unsigned char *)malloc(MAX_OUTSTR_LEN);
 
 	int genPercent = 0;
 	int i = 0;
@@ -221,8 +223,7 @@ int main(int argc, char** argv)
 					while ((found2 == false) && (rcount < 100)) {
 						r = rand2();
 						for (int m = 0; m < msv->size(); m++) {
-							if ((r <= msv->at(m)->weight) &&
-								(msv->at(m)->chr2map == strMap[j])) {
+							if ((r <= msv->at(m)->weight) && (msv->at(m)->chr2map == strMap[j])) {
 								nextchar = msv->at(m)->chr2;
 								found2 = true;
 								break;
@@ -243,6 +244,13 @@ int main(int argc, char** argv)
 				}
 				end = utf8::append(nextchar, end);
 				*end = '\0';
+				if ((end - outstr) >= (MAX_OUTSTR_LEN - 5)) {
+					//close enough.
+					//The minus 5 is in there because a unicode character could be up to 4 long,
+					//and then you have to rememmber the null terminator.  So I buffer the buffer
+					//by 5 just to be safe.
+					break;
+				}
 				prevchar = nextchar;
 			}
 		}
@@ -258,6 +266,30 @@ int main(int argc, char** argv)
 	}
 
 	outfile.close();
+	free(outstr);
+
+	//Free up memory before we exit.
+	for (int i = 0; i < positionRoot.size(); i++) {
+		unsigned long long totalCount = 0;
+		for (int j = 0; j < positionRoot[i].size(); j++) {
+			delete positionRoot[i][j];
+		}
+	}
+
+	for (int i = 0; i < positionMarkov.size(); i++) {
+		unsigned long long totalCount = 0;
+		for (int j = 0; j < positionMarkov[i].size(); j++) {
+			if (positionMarkov[i][j] != NULL) {
+				unsigned long long totalCount = 0;
+				for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+					markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+					delete ms;
+				}
+				delete positionMarkov[i][j]->msv;
+			}
+		}
+	}
+
 	std::cout << "\nDone!\n";
 	return 0;
 }

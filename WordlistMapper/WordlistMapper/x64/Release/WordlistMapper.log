@@ -1,11 +1,1 @@
-﻿  HashItem.cpp
-  HashTable.cpp
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\WordlistMapper\WordlistMapper\HashTable.cpp(182,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\WordlistMapper\WordlistMapper\HashTable.cpp(194,20): warning C4018: '<': signed/unsigned mismatch
-  hash_32a.cpp
-  WordlistMapper.cpp
-  Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 252 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  WordlistMapper.vcxproj -> C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\x64\Release\WordlistMapper.exe
+﻿
