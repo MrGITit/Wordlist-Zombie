@@ -40,12 +40,12 @@ Wordlist Zombie GUI is a Graphical User Interface for the Wordilst Zombie suite 
 
 ## Current State of things and relaxed roadmap
 
-I just released Wordlist Zombie v1.0.1alpha.  It fixes a couple bugs that I found after release.
+I just released Wordlist Zombie v1.0.2alpha.  It fixes a couple more bugs, and adds a feature (unweighted, and halfweighted output)
 
 The current release is Windows only, but it would probably compile under linux if someone took the time to try.
 
 I plan on compiling under linux soon.  Linux might not get the cool little windows C# .Net GUI, but it will eventually get the 3 main programs.
 
-I still have some ideas, such as creating options to adjust the weights on the wordlist generator to help create less duplicates, especially when generating markov / wordmaps from smaller wordlists.
+I still have some ideas for this project.  I'm not done yet!
 
 I also would like to code my own sort program to add to the suite to sort and deduplicate the output of Wordlist Generator.  I will try my hardest to make sure it sorts the same way GNU Sort does so that it meets the current standard of sorting wordlists.  Mine just probably wont perform as fast and that is OK.
