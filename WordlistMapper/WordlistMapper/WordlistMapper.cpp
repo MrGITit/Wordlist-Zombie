@@ -8,6 +8,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstring>
 
 #define FILE_READ_BUFF_SIZE 1024*1024
 

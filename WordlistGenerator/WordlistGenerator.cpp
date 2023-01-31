@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include <cstring>
 
 #define MAX_OUTSTR_LEN 1024*1024
 #define FILE_READ_BUFF_SIZE 1024*1024
@@ -142,17 +143,17 @@ int main(int argc, char** argv)
 	}
 
 	if ((markov_file_path == nullptr) && (wordlist_map_file_path == nullptr)) {
-		std::cout << "\--markov and --wordmap may not be exluded from command line.\n";
+		std::cout << "\n--markov and --wordmap may not be exluded from command line.\n";
 		return 0;
 	}
 
 	if (markov_file_path == nullptr) {
-		std::cout << "\--markov may not be exluded from command line.\n";
+		std::cout << "\n--markov may not be exluded from command line.\n";
 		return 0;
 	}
 
 	if (wordlist_map_file_path == nullptr) {
-		std::cout << "\--wordmap may not be exluded from command line.\n";
+		std::cout << "\n--wordmap may not be exluded from command line.\n";
 		return 0;
 	}
 
@@ -685,7 +686,7 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 	std::ifstream fs(wordlist_map_file_path);
 	if (!fs.is_open()) {
 		std::cout << "Could not open " << wordlist_map_file_path << std::endl;
-		return 0;
+		return false;
 	}
 
 	unsigned int line_count = 1;
@@ -724,6 +725,7 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 
 	std::cout << "Processing Finished!  " << line_count << " Lines Processed.\n";
 	fs.close();
+	return true;
 }
 
 void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool unweightedOutput, bool halfweightedOutput) {

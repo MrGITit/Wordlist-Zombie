@@ -1,5 +1,3 @@
-#pragma once
-
 #include "HashItem.h"
 #include <stdlib.h>
 #include <malloc.h>

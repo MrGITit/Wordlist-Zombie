@@ -1,5 +1,3 @@
-#pragma once
-
 #include "HashTable.h"
 #include "fnv.h"
 #include <iostream>

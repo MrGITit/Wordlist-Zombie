@@ -8,6 +8,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstring>
+#include <stdlib.h>
 
 #define FILE_READ_BUFF_SIZE 1024*1024
 
@@ -207,7 +209,9 @@ void processLine(char* lineBuff, unsigned long long linecount, HashTable* ht) {
 		//POS T chr1map chr1
 		unsigned char itemString[100];
 
-		_itoa(i, (char*)&itemString, 10);
+		//_itoa(i, (char*)&itemString, 10); //(Unsupported by gcc)
+		sprintf((char*)&itemString,"%d",i);
+
 
 		strcat((char*)itemString, " T ");
 
@@ -260,7 +264,8 @@ void processLine(char* lineBuff, unsigned long long linecount, HashTable* ht) {
 		unsigned char itemString[100];
 
 		//Position
-		_itoa(i - 1, (char*)&itemString, 10);
+		//_itoa(i - 1, (char*)&itemString, 10); //(Unsupported by gcc)
+		sprintf((char*)&itemString,"%d",i - 1);
 
 		//F (for False (isroot))
 		strcat((char*)itemString, " F ");
