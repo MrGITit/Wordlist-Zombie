@@ -14,7 +14,16 @@
 void processLine(char* lineBuff, unsigned long long linecount, HashTable* ht);
 
 void outputHelp() {
-	std::cout << "WordlistMapper Usage:\n\nWordlistMapper --wordlist \"path\\to\\wordlist\" --output \"path\\to\\output file.txt\"\n\nOther Commands:\n--help : Output this help file\n/?     : Also output this help file.\n";
+	std::cout << "WordlistMapper Usage:\n\n"\
+				 "WordlistMapper --wordlist \"path\\to\\wordlist\" --output \"path\\to\\output file.txt\"\n\n"\
+				 "Other Commands:\n"\
+				 "--help    : Output this help file\n"\
+				 "/?        : Also output this help file.\n"\
+				 "--version : version information\n";
+}
+
+void outputVersion() {
+	std::cout << "Version: Wordlist Mapper v1.0.2-alpha - A part of the Wordlist Zombie program suite.\n";
 }
 
 int main(int argc, char** argv)
@@ -36,6 +45,14 @@ int main(int argc, char** argv)
 		}
 		if (strcmp(argv[i], "/?") == 0) {
 			outputHelp();
+			return 0;
+		}
+	}
+
+	//Check for --version
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "--version") == 0) {
+			outputVersion();
 			return 0;
 		}
 	}

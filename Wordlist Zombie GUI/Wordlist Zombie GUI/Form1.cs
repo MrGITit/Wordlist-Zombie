@@ -120,6 +120,10 @@ namespace Wordlist_Zombie_GUI
             jss.jsonEditWGMarkovFile = editWGMarkovFile.Text;
             jss.jsonEditWGWordlistMapFile = editWGWordlistMapFile.Text;
             jss.jsonEditWGOutputFile = editWGOutputFile.Text;
+            jss.jsonEditWGNumber = editWGNumber.Text;
+            jss.jsonRadioButtonWeightedOutput = radioButtonWeightedOutput.Checked;
+            jss.jsonRadioButtonHalfWeightedOutput = radioButtonHalfWeightedOutput.Checked;
+            jss.jsonRadioButtonUnweightedOutput = radioButtonUnweightedOutput.Checked;
             jss.jsonEditMCTWordlist = editMCTWordlist.Text;
             jss.jsonEditMCTOutput = editMCTOutput.Text;
             jss.jsonEditWMWordlist = editWMWordlist.Text;
@@ -164,6 +168,10 @@ namespace Wordlist_Zombie_GUI
                     editWGMarkovFile.Text = jss.jsonEditWGMarkovFile;
                     editWGWordlistMapFile.Text = jss.jsonEditWGWordlistMapFile;
                     editWGOutputFile.Text = jss.jsonEditWGOutputFile;
+                    editWGNumber.Text = jss.jsonEditWGNumber;
+                    radioButtonWeightedOutput.Checked = jss.jsonRadioButtonWeightedOutput;
+                    radioButtonHalfWeightedOutput.Checked = jss.jsonRadioButtonHalfWeightedOutput;
+                    radioButtonUnweightedOutput.Checked = jss.jsonRadioButtonUnweightedOutput;
                     editMCTWordlist.Text = jss.jsonEditMCTWordlist;
                     editMCTOutput.Text = jss.jsonEditMCTOutput;
                     editWMWordlist.Text = jss.jsonEditWMWordlist;
@@ -197,7 +205,12 @@ namespace Wordlist_Zombie_GUI
         {
             Process p = new Process();
             p.StartInfo.UseShellExecute = true;
-            p.StartInfo.Arguments = "--number " + editWGNumber.Text + " --markov \"" + editWGMarkovFile.Text + "\" --wordmap \"" + editWGWordlistMapFile.Text + "\" --output \"" + editWGOutputFile.Text + "\"";
+
+            string weight = "";
+            if (radioButtonUnweightedOutput.Checked == true) weight = "--unweighted";
+            else if (radioButtonHalfWeightedOutput.Checked == true) weight = "--halfweighted";
+
+            p.StartInfo.Arguments = "--number " + editWGNumber.Text + " --markov \"" + editWGMarkovFile.Text + "\" --wordmap \"" + editWGWordlistMapFile.Text + "\" --output \"" + editWGOutputFile.Text + "\"" + " " + weight;
             p.StartInfo.FileName = editSWordlistGenerator.Text;
             p.Start();
         }
@@ -226,6 +239,10 @@ namespace Wordlist_Zombie_GUI
         public string jsonEditWGMarkovFile { get; set; }
         public string jsonEditWGWordlistMapFile { get; set; }
         public string jsonEditWGOutputFile { get; set; }
+        public string jsonEditWGNumber { get; set; }
+        public bool jsonRadioButtonWeightedOutput { get; set; }
+        public bool jsonRadioButtonHalfWeightedOutput { get; set; }
+        public bool jsonRadioButtonUnweightedOutput { get; set; }
         public string jsonEditMCTWordlist { get; set; }
         public string jsonEditMCTOutput { get; set; }
         public string jsonEditWMWordlist { get; set; }

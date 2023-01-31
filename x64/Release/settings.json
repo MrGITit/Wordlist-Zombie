@@ -1,0 +1,12 @@
+{
+  "jsonEditWGMarkovFile": "D:\\wordlists\\hashesorg2019Markov.txt",
+  "jsonEditWGWordlistMapFile": "D:\\wordlists\\hashesorg2019Wordmap.txt",
+  "jsonEditWGOutputFile": "D:\\wordlists\\hashesorg2019Output.txt",
+  "jsonEditMCTWordlist": "C:\\wordlists\\hashesorg2019.txt",
+  "jsonEditMCTOutput": "D:\\wordlists\\hashesorg2019Markov.txt",
+  "jsonEditWMWordlist": "C:\\wordlists\\hashesorg2019.txt",
+  "jsonEditWMOutput": "D:\\wordlists\\hashesorg2019Wordmap.txt",
+  "jsonEditSWordlistGenerator": "C:\\Users\\Owner\\Documents\\Dev\\cpp\\Wordlist Zombie\\Wordlist-Zombie\\x64\\Release\\WordlistGenerator.exe",
+  "jsonEditSMarkovChainThing": "C:\\Users\\Owner\\Documents\\Dev\\cpp\\Wordlist Zombie\\Wordlist-Zombie\\x64\\Release\\MarkovChainThing.exe",
+  "jsonEditSWordlistMapper": "C:\\Users\\Owner\\Documents\\Dev\\cpp\\Wordlist Zombie\\Wordlist-Zombie\\x64\\Release\\WordlistMapper.exe"
+}

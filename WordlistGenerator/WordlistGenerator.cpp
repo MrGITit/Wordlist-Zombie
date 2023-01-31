@@ -9,7 +9,8 @@
 #include <string>
 #include <vector>
 
-#define MAX_OUTSTR_LEN 1024*1024 //This could be bigger, could be smaller.  Doesn't matter to me.
+#define MAX_OUTSTR_LEN 1024*1024
+#define FILE_READ_BUFF_SIZE 1024*1024
 
 struct markovRootStruct {
 	unsigned long chr;
@@ -44,14 +45,25 @@ double rand2()
 	return (double)rand() / (double)RAND_MAX;
 }
 
-
+bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov);
 bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov);
-void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov);
+void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool unweightedOutput, bool halfweightedOutput);
 bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMapStruct*>& wordlistMapVector);
-void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector);
+void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool unweightedOutput, bool halfweightedOutput);
 
 void outputHelp() {
-	std::cout << "WordlistGenerator Usage:\n\nWordlistGenerator --number <Number of words to generate> --markov \"path\\to\\markov file.txt\" --wordmap \"path\\to\\word map file.txt\" --output \"path\\to\\output file.txt\"\n\nOther Commands:\n--help : Output this help file\n/?     : Also output this help file.\n";
+	std::cout << "WordlistGenerator Usage:\n\n"\
+				 "WordlistGenerator --number <Number of words to generate> --markov \"path\\to\\markov file.txt\" --wordmap \"path\\to\\word map file.txt\" --output \"path\\to\\output file.txt\"\n\n"\
+				 "Other Commands:\n"\
+				 "--help         : Output this help file\n"\
+				 "/?             : Also output this help file.\n"\
+				 "--unweighted   : Remove weighted output in an attempt to generate less duplicates.\n"\
+				 "--halfweighted : Relax the weighted output in an attempt to balance between weighted output and unweighted output.\n"\
+				 "--version      : version information\n";
+}
+
+void outputVersion() {
+	std::cout << "Version: Wordlist Generator v1.0.2-alpha - A part of the Wordlist Zombie program suite.\n";
 }
 
 int main(int argc, char** argv)
@@ -68,6 +80,7 @@ int main(int argc, char** argv)
 	std::vector<wordlistMapStruct*> wordlistMapVector;
 
 	unsigned long long wordsToGenerate = 0;
+	bool unweightedOutput=false, halfweightedOutput=false;
 
 	if (argc == 1) {
 		std::cout << "\nTry: WordlistGenerator --help\n";
@@ -86,7 +99,13 @@ int main(int argc, char** argv)
 		}
 	}
 
-
+	//Check for --version
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "--version") == 0) {
+			outputVersion();
+			return 0;
+		}
+	}
 
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "--number") == 0) {
@@ -108,6 +127,12 @@ int main(int argc, char** argv)
 			if (argc >= i + 1) {
 				output_file_path = argv[i + 1];
 			}
+		}
+		if (strcmp(argv[i], "--unweighted") == 0) {
+			unweightedOutput = true;
+		}
+		if (strcmp(argv[i], "--halfweighted") == 0) {
+			halfweightedOutput = true;
 		}
 	}
 
@@ -136,15 +161,19 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
+	if ((unweightedOutput == true) && (halfweightedOutput == true)) {
+		std::cout << "\nYou may not use --unweighted and --halfweighted at the same time.\n";
+	}
+
 	if (markov_file_path != nullptr)
 		if (!loadMarkovChainFile(markov_file_path, positionRoot, positionMarkov)) return 0;
 
-	setMarkovWeights(positionRoot, positionMarkov);
+	setMarkovWeights(positionRoot, positionMarkov, unweightedOutput, halfweightedOutput);
 
 	if (wordlist_map_file_path != nullptr)
 		if (!loadWordMapFile(wordlist_map_file_path, wordlistMapVector)) return 0;
 
-	setWordMapWeights(wordlistMapVector);
+	setWordMapWeights(wordlistMapVector, unweightedOutput, halfweightedOutput);
 
 	srand(time(NULL));
 
@@ -231,6 +260,16 @@ int main(int argc, char** argv)
 						}
 						rcount++;
 					}
+					if (found2 == false) {
+						r = rand2();
+						//If no match is found then use root to compensate
+						for (int n = 0; n < positionRoot[j].size(); n++) {
+							if (r <= positionRoot[j][n]->weight) {
+								nextchar = positionRoot[j][n]->chr;
+								break;
+							}
+						}
+					}
 				}
 				else {
 					r = rand2();
@@ -242,6 +281,7 @@ int main(int argc, char** argv)
 						}
 					}
 				}
+
 				end = utf8::append(nextchar, end);
 				*end = '\0';
 				if ((end - outstr) >= (MAX_OUTSTR_LEN - 5)) {
@@ -298,169 +338,345 @@ int main(int argc, char** argv)
 bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov) {
 	std::cout << "Processing Markov Chain File.\n";
 
-	// Open the test file (must be UTF-8 encoded)
-	std::ifstream fs(markov_file_path);
-	if (!fs.is_open()) {
+	//I had to quit using ifstream, because it kept failing in the middle of reading files.
+	//So now I fell back to good old fopen, and fread from C and it works great.  I probably
+	//got speed improvements out of the deal too!
+
+	FILE* pFile = fopen(markov_file_path, "rb");
+	if (pFile == NULL) {
 		std::cout << "Could not open " << markov_file_path << std::endl;
 		return false;
 	}
 
-	unsigned int line_count = 1;
-	std::string line;
-	// Play with all the lines in the file
-	while (getline(fs, line)) {
-		// check for invalid utf-8 (for a simple yes/no check, there is also utf8::is_valid function)
-		std::string::iterator end_it = utf8::find_invalid(line.begin(), line.end());
-		if (end_it != line.end()) {
-			std::cout << "Invalid UTF-8 encoding detected at line " << line_count << "\n";
-			continue;
+	unsigned long long line_count = 1;
+
+	char* getBuff = (char*)malloc(FILE_READ_BUFF_SIZE);
+	char* lineBuff = (char*)malloc(FILE_READ_BUFF_SIZE);
+	int overflowAmmount = 0;
+	int lineStart = 0;
+	int bytesRead = 0;
+	unsigned long long linecount = 0;
+	do {
+		bytesRead = fread(getBuff + overflowAmmount, 1, FILE_READ_BUFF_SIZE - overflowAmmount, pFile);
+		bytesRead = bytesRead + overflowAmmount;
+
+		//Next Find lines
+		for (int i = 0; i < bytesRead; i++) {
+			if ((getBuff[i] == '\r') || (getBuff[i] == '\n')) {
+				int lineEnd = i;
+				//extract line
+				if (lineStart != lineEnd) {
+					memcpy(lineBuff, getBuff + lineStart, lineEnd - lineStart);
+					lineBuff[lineEnd - lineStart] = '\0';
+
+					//Now we can use our shiny new line
+					linecount++;
+					if (processLineMarkovChainFile(lineBuff, linecount, positionRoot, positionMarkov) == false) {
+						fclose(pFile);
+						free(getBuff);
+						free(lineBuff);
+						return false;
+					}
+
+				}
+				lineStart = lineEnd + 1;
+			}
 		}
-		// Get the line length (at least for the valid part)
-		ptrdiff_t length = utf8::distance(line.begin(), end_it);
 
-		std::string::iterator nextIT = line.begin();
+		if (feof(pFile)) {
+			//End of file reached! Whatever is left must be a word!!
+			memcpy(lineBuff, getBuff + lineStart, bytesRead - lineStart);
+			lineBuff[bytesRead - lineStart] = '\0';
 
-		//First Get Root
-		if (line_count == 1) {
-			if (line.compare("Markov Chain Thing 1.0") != 0) {
-				std::cout << "Error: Invalid Markov Chain Thing File.\n";
+			//Now we can use our shiny new line
+			linecount++;
+			if (processLineMarkovChainFile(lineBuff, linecount, positionRoot, positionMarkov) == false) {
+				fclose(pFile);
+				free(getBuff);
+				free(lineBuff);
 				return false;
 			}
-		}
-		else {
-			char* numberEnd;
-
-			unsigned long long count = strtoull(line.c_str(), &numberEnd, 10);
-
-			unsigned long position = strtoul(numberEnd + 1, &numberEnd, 10);
-
-			//std::cout << count << " " << position << "\n";
-
-			if (*(numberEnd + 1) == 'T') {
-				//It is a root character
-				//get char mapping
-				unsigned char chrmapping = *(numberEnd + 3);
-
-				//get char
-				nextIT += numberEnd + 5 - line.c_str();
-				unsigned int nextChr = utf8::next(nextIT, end_it);
-
-				//std::cout << count << " " << position << " " << nextChr << "\n";
-
-				//Fill struct
-				markovRootStruct* mrs = new markovRootStruct();
-				mrs->chr = nextChr;
-				mrs->chrmap = chrmapping;
-				mrs->count = count;
-				mrs->weight = 0.0; //We find weight later
-
-				//Add it to vector!
-				//Make sure vector is big enough.
-				if (positionRoot.size() < position + 1) {
-					positionRoot.resize(positionRoot.size() + 100); //Add another hundo
-				}
-				//Add!
-				positionRoot[position].push_back(mrs);
-			}
-			else {
-				//It is a markov chain thing
-				//get char mapping
-				unsigned char chr1mapping = *(numberEnd + 3);
-				unsigned char chr2mapping = *(numberEnd + 4);
-
-				//get chars
-				nextIT += numberEnd + 6 - line.c_str();
-				unsigned int nextChr1 = utf8::next(nextIT, end_it);
-				unsigned int nextChr2 = utf8::next(nextIT, end_it);
-
-				//Fill structs
-				markovChr1Struct* mc1s = new markovChr1Struct();
-				markovStruct* ms = new markovStruct();
-				mc1s->chr1 = nextChr1;
-				mc1s->chr1map = chr1mapping;
-				mc1s->msv = new std::vector<markovStruct*>;
-
-				ms->chr1 = nextChr1;
-				ms->chr2 = nextChr2;
-				ms->chr1map = chr1mapping;
-				ms->chr2map = chr2mapping;
-				ms->count = count;
-				ms->weight = 0.0;
-
-				//Add!
-				//First Check if there is already a markovChr1Struct that is the same as ours
-				//Make sure vector is big enough.
-				if (positionMarkov.size() < position + 1) {
-					positionMarkov.resize(positionMarkov.size() + 100); //Add another hundo
-				}
-
-				bool found = false;
-				std::vector<markovStruct*>* msv = nullptr;
-				for (int j = 0; j < positionMarkov[position].size(); j++) {
-					if (positionMarkov[position][j]->chr1 == nextChr1) {
-						msv = positionMarkov[position][j]->msv;
-						found = true;
-						break;
-					}
-				}
-
-				if (found) {
-					//Add to msv
-					msv->push_back(ms);
-				}
-				else {
-					//Add to positionMarkov AND msv
-					positionMarkov[position].push_back(mc1s);
-					mc1s->msv->push_back(ms);
-				}
-			}
-
-
+			break;
 		}
 
-		line_count++;
-	}
+		if (lineStart == 0) {
+			//No line found!  FAIL!
+			break;
+		}
+		overflowAmmount = bytesRead - lineStart;
+		memcpy(getBuff, getBuff + lineStart, overflowAmmount);
+		lineStart = 0;
+	} while (bytesRead != 0);
 
-	fs.close();
+	std::cout << "Processing Finished!  " << linecount << " Lines Processed.\n";
 
-	std::cout << "Processing Finished!  " << line_count << " Lines Processed.\n";
+	fclose(pFile);
+	free(getBuff);
+	free(lineBuff);
 
 	return true;
 }
 
-void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov) {
-	std::cout << "Setting weights for markov chain.\n";
-
-	//Set Weights for Root
-	for (int i = 0; i < positionRoot.size(); i++) {
-		unsigned long long totalCount = 0;
-		for (int j = 0; j < positionRoot[i].size(); j++) {
-			totalCount += positionRoot[i][j]->count;
-		}
-		double prevweight = 0;
-		for (int j = 0; j < positionRoot[i].size(); j++) {
-			prevweight = positionRoot[i][j]->weight = prevweight + ((double)positionRoot[i][j]->count / (double)totalCount);
-		}
+bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov) {
+	// check for invalid utf-8 (for a simple yes/no check, there is also utf8::is_valid function)
+	char* end_it = utf8::find_invalid(lineBuff, lineBuff + strlen(lineBuff));
+	if (end_it != lineBuff + strlen(lineBuff)) {
+		std::cout << "Invalid UTF-8 encoding detected at line " << linecount << "\n";
+		return false;
 	}
 
-	//Set Weights for Markov chain things
-	for (int i = 0; i < positionMarkov.size(); i++) {
-		unsigned long long totalCount = 0;
-		for (int j = 0; j < positionMarkov[i].size(); j++) {
-			if (positionMarkov[i][j] != NULL) {
-				unsigned long long totalCount = 0;
-				for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
-					markovStruct* ms = positionMarkov[i][j]->msv->at(k);
-					totalCount += ms->count;
+	// Get the line length (at least for the valid part)
+	auto length = utf8::distance(lineBuff, end_it);
+
+	char* nextIT = lineBuff;
+
+	//First Get Root
+	if (linecount == 1) {
+		if (strcmp(lineBuff,"Markov Chain Thing 1.0") != 0) {
+			std::cout << "Error: Invalid Markov Chain Thing File.\n";
+			return false;
+		}
+	}
+	else {
+		if (strlen(lineBuff) == 0) return true;  //Last line is ""
+
+		char* numberEnd;
+
+		unsigned long long count = strtoull(lineBuff, &numberEnd, 10);
+
+		unsigned long position = strtoul(numberEnd + 1, &numberEnd, 10);
+
+		//std::cout << count << " " << position << "\n";
+
+		if (*(numberEnd + 1) == 'T') {
+			//It is a root character
+			//get char mapping
+			unsigned char chrmapping = *(numberEnd + 3);
+
+			//get char
+			nextIT += numberEnd + 5 - lineBuff;
+			unsigned int nextChr = 0;
+			try {
+				nextChr = utf8::next(nextIT, end_it);
+			}
+			catch (const std::exception& e) {
+				std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				return true;
+			}
+
+			//Fill struct
+			markovRootStruct* mrs = new markovRootStruct();
+			mrs->chr = nextChr;
+			mrs->chrmap = chrmapping;
+			mrs->count = count;
+			mrs->weight = 0.0; //We find weight later
+
+			//Add it to vector!
+			//Make sure vector is big enough.
+			if (positionRoot.size() < position + 1) {
+				positionRoot.resize(positionRoot.size() + 100); //Add another hundo
+			}
+			//Add!
+			positionRoot[position].push_back(mrs);
+		}
+		else {
+			//It is a markov chain thing
+			//get char mapping
+			unsigned char chr1mapping = *(numberEnd + 3);
+			unsigned char chr2mapping = *(numberEnd + 4);
+
+			//get chars
+			nextIT += numberEnd + 6 - lineBuff;
+			unsigned int nextChr1 = 0;
+			try {
+				nextChr1 = utf8::next(nextIT, end_it);
+			}
+			catch (const std::exception& e) {
+				std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				return true;
+			}
+
+			unsigned int nextChr2 = 0;
+			try {
+				nextChr2 = utf8::next(nextIT, end_it);
+			}
+			catch (const std::exception& e) {
+				std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				return true;
+			}
+
+			//Fill structs
+			markovChr1Struct* mc1s = new markovChr1Struct();
+			markovStruct* ms = new markovStruct();
+			mc1s->chr1 = nextChr1;
+			mc1s->chr1map = chr1mapping;
+			mc1s->msv = new std::vector<markovStruct*>;
+
+			ms->chr1 = nextChr1;
+			ms->chr2 = nextChr2;
+			ms->chr1map = chr1mapping;
+			ms->chr2map = chr2mapping;
+			ms->count = count;
+			ms->weight = 0.0;
+
+			//Add!
+			//First Check if there is already a markovChr1Struct that is the same as ours
+			//Make sure vector is big enough.
+			if (positionMarkov.size() < position + 1) {
+				positionMarkov.resize(positionMarkov.size() + 100); //Add another hundo
+			}
+
+			bool found = false;
+			std::vector<markovStruct*>* msv = nullptr;
+			for (int j = 0; j < positionMarkov[position].size(); j++) {
+				if (positionMarkov[position][j]->chr1 == nextChr1) {
+					msv = positionMarkov[position][j]->msv;
+					found = true;
+					break;
 				}
-				double prevweight = 0;
-				for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
-					markovStruct* ms = positionMarkov[i][j]->msv->at(k);
-					prevweight = ms->weight = prevweight + ((double)ms->count / (double)totalCount);
+			}
+
+			if (found) {
+				//Add to msv
+				msv->push_back(ms);
+			}
+			else {
+				//Add to positionMarkov AND msv
+				positionMarkov[position].push_back(mc1s);
+				mc1s->msv->push_back(ms);
+			}
+		}
+	}
+	return true;
+}
+
+void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool unweightedOutput, bool halfweightedOutput) {
+	
+	if ((unweightedOutput == false) && (halfweightedOutput == false)) {
+		std::cout << "Setting weights for Markov Chain.\n";
+
+		//Set Weights for Root
+		for (int i = 0; i < positionRoot.size(); i++) {
+			unsigned long long totalCount = 0;
+			for (int j = 0; j < positionRoot[i].size(); j++) {
+				totalCount += positionRoot[i][j]->count;
+			}
+			double prevweight = 0;
+			for (int j = 0; j < positionRoot[i].size(); j++) {
+				prevweight = positionRoot[i][j]->weight = prevweight + ((double)positionRoot[i][j]->count / (double)totalCount);
+			}
+		}
+
+		//Set Weights for Markov chain things
+		for (int i = 0; i < positionMarkov.size(); i++) {
+			unsigned long long totalCount = 0;
+			for (int j = 0; j < positionMarkov[i].size(); j++) {
+				if (positionMarkov[i][j] != NULL) {
+					unsigned long long totalCount = 0;
+					for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+						markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+						totalCount += ms->count;
+					}
+					double prevweight = 0;
+					for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+						markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+						prevweight = ms->weight = prevweight + ((double)ms->count / (double)totalCount);
+					}
 				}
 			}
 		}
 	}
+	else if (unweightedOutput == true) {
+		std::cout << "Unweighting the weights for Markov Chain.\n";
+		//Set Equal Weights for Root
+		for (int i = 0; i < positionRoot.size(); i++) {
+			double c = (double)1 / (double)positionRoot[i].size();
+
+			double prevweight = 0;
+			for (int j = 0; j < positionRoot[i].size(); j++) {
+				prevweight = positionRoot[i][j]->weight = prevweight + c;
+			}
+		}
+
+		//Set Equal Weights for Markov chain things
+		for (int i = 0; i < positionMarkov.size(); i++) {
+			unsigned long long totalCount = 0;
+			for (int j = 0; j < positionMarkov[i].size(); j++) {
+				if (positionMarkov[i][j] != NULL) {
+					double c = (double)1 / (double)positionMarkov[i][j]->msv->size();
+
+					double prevweight = 0;
+					for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+						markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+						prevweight = ms->weight = prevweight + c;
+					}
+				}
+			}
+		}
+	}
+	else if (halfweightedOutput == true) {
+		//Set Half-Weights for Root
+		std::cout << "Half-Weighting the weights for Markov Chain.\n";
+		for (int i = 0; i < positionRoot.size(); i++) {
+			double c = (double)1 / (double)positionRoot[i].size();
+			unsigned long long totalCount = 0;
+			for (int j = 0; j < positionRoot[i].size(); j++) {
+				totalCount += positionRoot[i][j]->count;
+			}
+
+			double prevweightFull = 0;
+			double prevweightEqual = 0;
+			for (int j = 0; j < positionRoot[i].size(); j++) {
+				prevweightFull = prevweightFull + ((double)positionRoot[i][j]->count / (double)totalCount);
+				prevweightEqual = prevweightEqual + c;
+				positionRoot[i][j]->weight = ((prevweightFull + prevweightEqual) / 2);
+			}
+		}
+
+		//Set Half-Weights for Markov chain things
+		for (int i = 0; i < positionMarkov.size(); i++) {
+			unsigned long long totalCount = 0;
+			for (int j = 0; j < positionMarkov[i].size(); j++) {
+				if (positionMarkov[i][j] != NULL) {
+					double c = (double)1 / (double)positionMarkov[i][j]->msv->size();
+					unsigned long long totalCount = 0;
+					for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+						markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+						totalCount += ms->count;
+					}
+					double prevweightFull = 0;
+					double prevweightEqual = 0;
+					for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+						markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+						prevweightFull = prevweightFull + ((double)ms->count / (double)totalCount);
+						prevweightEqual = prevweightEqual + c;
+						ms->weight = ((prevweightFull + prevweightEqual) / 2);
+					}
+				}
+			}
+		}
+	}
+
+	//Code to make sure the weights are right
+	//for (int i = 0; i < positionRoot.size(); i++) {
+	//	for (int j = 0; j < positionRoot[i].size(); j++) {
+	//		std::cout << positionRoot[i][j]->weight << " ";
+	//	}
+	//	std::cout << "\n\n";
+	//}
+	//for (int i = 0; i < positionMarkov.size(); i++) {
+	//	for (int j = 0; j < positionMarkov[i].size(); j++) {
+	//		if (positionMarkov[i][j] != NULL) {
+	//			for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+	//				markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+	//				std::cout << ms->weight << " ";
+	//			}
+	//			std::cout << "\n\n";
+	//		}
+	//	}
+	//	std::cout << "\n\n";
+	//}
+
 }
 
 bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMapStruct*>& wordlistMapVector) {
@@ -510,14 +726,41 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 	fs.close();
 }
 
-void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector) {
-	std::cout << "Setting weights for wordlist map.\n";
-	unsigned long long totalCount = 0;
-	for (int i = 0; i < wordlistMapVector.size(); i++) {
-		totalCount += wordlistMapVector[i]->count;
+void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool unweightedOutput, bool halfweightedOutput) {
+
+	if ((unweightedOutput == false) && (halfweightedOutput == false)) {
+		std::cout << "Setting weights for wordlist map.\n";
+		unsigned long long totalCount = 0;
+		for (int i = 0; i < wordlistMapVector.size(); i++) {
+			totalCount += wordlistMapVector[i]->count;
+		}
+		double prevweight = 0;
+		for (int i = 0; i < wordlistMapVector.size(); i++) {
+			prevweight = wordlistMapVector[i]->weight = prevweight + ((double)wordlistMapVector[i]->count / (double)totalCount);
+		}
 	}
-	double prevweight = 0;
-	for (int i = 0; i < wordlistMapVector.size(); i++) {
-		prevweight = wordlistMapVector[i]->weight = prevweight + ((double)wordlistMapVector[i]->count / (double)totalCount);
+	else if (unweightedOutput == true) {
+		std::cout << "Unweighting weights for wordlist map.\n";
+		double c = (double)1 / (double)wordlistMapVector.size();
+
+		double prevweight = 0;
+		for (int i = 0; i < wordlistMapVector.size(); i++) {
+			prevweight = wordlistMapVector[i]->weight = prevweight + c;
+		}
+	}
+	else if (halfweightedOutput == true) {
+		std::cout << "Half-Weighting weights for wordlist map.\n";
+		double c = (double)1 / (double)wordlistMapVector.size();
+		unsigned long long totalCount = 0;
+		for (int i = 0; i < wordlistMapVector.size(); i++) {
+			totalCount += wordlistMapVector[i]->count;
+		}
+		double prevweightFull = 0;
+		double prevweightEqual = 0;
+		for (int i = 0; i < wordlistMapVector.size(); i++) {
+			prevweightFull = prevweightFull + ((double)wordlistMapVector[i]->count / (double)totalCount);
+			prevweightEqual = prevweightEqual + c;
+			wordlistMapVector[i]->weight = ((prevweightFull + prevweightEqual) / 2);
+		}
 	}
 }

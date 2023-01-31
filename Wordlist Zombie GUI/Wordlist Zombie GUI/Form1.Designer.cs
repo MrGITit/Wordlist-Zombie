@@ -30,6 +30,10 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonUnweightedOutput = new System.Windows.Forms.RadioButton();
+            this.radioButtonHalfWeightedOutput = new System.Windows.Forms.RadioButton();
+            this.radioButtonWeightedOutput = new System.Windows.Forms.RadioButton();
             this.editWGNumber = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.buttonWGOutputFileBrowse = new System.Windows.Forms.Button();
@@ -82,6 +86,7 @@
             this.openFileDialogSWordlistMapper = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -100,12 +105,13 @@
             this.tabControl1.Location = new System.Drawing.Point(13, 123);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(534, 197);
+            this.tabControl1.Size = new System.Drawing.Size(534, 252);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.editWGNumber);
             this.tabPage1.Controls.Add(this.label11);
             this.tabPage1.Controls.Add(this.buttonWGOutputFileBrowse);
@@ -121,9 +127,52 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(526, 169);
+            this.tabPage1.Size = new System.Drawing.Size(526, 224);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Wordlist Generator";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonUnweightedOutput);
+            this.groupBox1.Controls.Add(this.radioButtonHalfWeightedOutput);
+            this.groupBox1.Controls.Add(this.radioButtonWeightedOutput);
+            this.groupBox1.Location = new System.Drawing.Point(14, 122);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(498, 48);
+            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabStop = false;
+            // 
+            // radioButtonUnweightedOutput
+            // 
+            this.radioButtonUnweightedOutput.AutoSize = true;
+            this.radioButtonUnweightedOutput.Location = new System.Drawing.Point(353, 18);
+            this.radioButtonUnweightedOutput.Name = "radioButtonUnweightedOutput";
+            this.radioButtonUnweightedOutput.Size = new System.Drawing.Size(130, 19);
+            this.radioButtonUnweightedOutput.TabIndex = 2;
+            this.radioButtonUnweightedOutput.Text = "Unweighted Output";
+            this.radioButtonUnweightedOutput.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonHalfWeightedOutput
+            // 
+            this.radioButtonHalfWeightedOutput.AutoSize = true;
+            this.radioButtonHalfWeightedOutput.Location = new System.Drawing.Point(177, 18);
+            this.radioButtonHalfWeightedOutput.Name = "radioButtonHalfWeightedOutput";
+            this.radioButtonHalfWeightedOutput.Size = new System.Drawing.Size(144, 19);
+            this.radioButtonHalfWeightedOutput.TabIndex = 1;
+            this.radioButtonHalfWeightedOutput.Text = "Half-Weighted Output";
+            this.radioButtonHalfWeightedOutput.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonWeightedOutput
+            // 
+            this.radioButtonWeightedOutput.AutoSize = true;
+            this.radioButtonWeightedOutput.Checked = true;
+            this.radioButtonWeightedOutput.Location = new System.Drawing.Point(11, 18);
+            this.radioButtonWeightedOutput.Name = "radioButtonWeightedOutput";
+            this.radioButtonWeightedOutput.Size = new System.Drawing.Size(117, 19);
+            this.radioButtonWeightedOutput.TabIndex = 0;
+            this.radioButtonWeightedOutput.TabStop = true;
+            this.radioButtonWeightedOutput.Text = "Weighted Output";
+            this.radioButtonWeightedOutput.UseVisualStyleBackColor = true;
             // 
             // editWGNumber
             // 
@@ -176,7 +225,7 @@
             // buttonWGGenerate
             // 
             this.buttonWGGenerate.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonWGGenerate.Location = new System.Drawing.Point(207, 125);
+            this.buttonWGGenerate.Location = new System.Drawing.Point(207, 178);
             this.buttonWGGenerate.Name = "buttonWGGenerate";
             this.buttonWGGenerate.Size = new System.Drawing.Size(112, 40);
             this.buttonWGGenerate.TabIndex = 15;
@@ -258,7 +307,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(526, 169);
+            this.tabPage2.Size = new System.Drawing.Size(526, 224);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Markov Chain Thing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -347,7 +396,7 @@
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(526, 169);
+            this.tabPage3.Size = new System.Drawing.Size(526, 224);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Wordlist Mapper";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -439,7 +488,7 @@
             this.tabPage4.Controls.Add(this.label4);
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(526, 169);
+            this.tabPage4.Size = new System.Drawing.Size(526, 224);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Settings";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -611,18 +660,20 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(556, 332);
+            this.ClientSize = new System.Drawing.Size(556, 387);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(572, 371);
             this.Name = "Form1";
-            this.Text = "Wordlist Zombie GUI 1.0";
+            this.Text = "Wordlist Zombie GUI v1.0.2-alpha";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -688,5 +739,9 @@
         private OpenFileDialog openFileDialogSWordlistMapper;
         private TextBox editWGNumber;
         private Label label11;
+        private GroupBox groupBox1;
+        private RadioButton radioButtonUnweightedOutput;
+        private RadioButton radioButtonHalfWeightedOutput;
+        private RadioButton radioButtonWeightedOutput;
     }
 }
