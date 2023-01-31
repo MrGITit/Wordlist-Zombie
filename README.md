@@ -40,11 +40,7 @@ Wordlist Zombie GUI is a Graphical User Interface for the Wordilst Zombie suite 
 
 ## Current State of things and relaxed roadmap
 
-I just released Wordlist Zombie v1.0.2alpha.  It fixes a couple more bugs, and adds a feature (unweighted, and halfweighted output)
-
-The current release is Windows only, but it would probably compile under linux if someone took the time to try.
-
-I plan on compiling under linux soon.  Linux might not get the cool little windows C# .Net GUI, but it will eventually get the 3 main programs.
+Linux build is here!  Type make in the clone directory to build! (binaries go to the bin folder)
 
 I still have some ideas for this project.  I'm not done yet!
 
