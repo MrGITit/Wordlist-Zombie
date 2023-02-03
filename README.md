@@ -40,7 +40,7 @@ Wordlist Zombie GUI is a Graphical User Interface for the Wordilst Zombie suite 
 
 ## Current State of things and relaxed roadmap
 
-Linux build is here!  Type make in the clone directory to build! (binaries go to the bin folder)
+Multi-thread output for Wordlist Generator is here in the current release!  Get it while it's hot!
 
 I still have some ideas for this project.  I'm not done yet!
 
