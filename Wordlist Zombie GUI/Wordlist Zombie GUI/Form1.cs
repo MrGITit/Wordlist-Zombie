@@ -121,6 +121,11 @@ namespace Wordlist_Zombie_GUI
             jss.jsonEditWGWordlistMapFile = editWGWordlistMapFile.Text;
             jss.jsonEditWGOutputFile = editWGOutputFile.Text;
             jss.jsonEditWGNumber = editWGNumber.Text;
+            jss.jsonEditWGThreads = editWGThreads.Text;
+            jss.jsonCheckboxWGMinWordLength = checkboxWGMinWordLength.Checked;
+            jss.jsonCheckboxWGMaxWordLength = checkboxWGMaxWordLength.Checked;
+            jss.jsonEditWGMinWordLength = editWGMinWordLength.Text;
+            jss.jsonEditWGMaxWordLength = editWGMaxWordLength.Text;
             jss.jsonRadioButtonWeightedOutput = radioButtonWeightedOutput.Checked;
             jss.jsonRadioButtonHalfWeightedOutput = radioButtonHalfWeightedOutput.Checked;
             jss.jsonRadioButtonUnweightedOutput = radioButtonUnweightedOutput.Checked;
@@ -169,6 +174,11 @@ namespace Wordlist_Zombie_GUI
                     editWGWordlistMapFile.Text = jss.jsonEditWGWordlistMapFile;
                     editWGOutputFile.Text = jss.jsonEditWGOutputFile;
                     editWGNumber.Text = jss.jsonEditWGNumber;
+                    editWGThreads.Text = jss.jsonEditWGThreads;
+                    checkboxWGMinWordLength.Checked = jss.jsonCheckboxWGMinWordLength;
+                    checkboxWGMaxWordLength.Checked = jss.jsonCheckboxWGMaxWordLength;
+                    editWGMinWordLength.Text = jss.jsonEditWGMinWordLength;
+                    editWGMaxWordLength.Text = jss.jsonEditWGMaxWordLength;
                     radioButtonWeightedOutput.Checked = jss.jsonRadioButtonWeightedOutput;
                     radioButtonHalfWeightedOutput.Checked = jss.jsonRadioButtonHalfWeightedOutput;
                     radioButtonUnweightedOutput.Checked = jss.jsonRadioButtonUnweightedOutput;
@@ -207,10 +217,19 @@ namespace Wordlist_Zombie_GUI
             p.StartInfo.UseShellExecute = true;
 
             string weight = "";
-            if (radioButtonUnweightedOutput.Checked == true) weight = "--unweighted";
-            else if (radioButtonHalfWeightedOutput.Checked == true) weight = "--halfweighted";
+            if (radioButtonUnweightedOutput.Checked == true) weight = " --unweighted";
+            else if (radioButtonHalfWeightedOutput.Checked == true) weight = " --halfweighted";
 
-            p.StartInfo.Arguments = "--number " + editWGNumber.Text + " --markov \"" + editWGMarkovFile.Text + "\" --wordmap \"" + editWGWordlistMapFile.Text + "\" --output \"" + editWGOutputFile.Text + "\"" + " " + weight;
+            string threads = "";
+            if ((editWGThreads.Text != "50") && (editWGThreads.Text != "")) threads = " --threads " + editWGThreads.Text;
+
+            string minWordLength = "";
+            if ((checkboxWGMinWordLength.Checked == true) && (editWGMinWordLength.Text != "")) minWordLength = " --minwordlength " + editWGMinWordLength.Text;
+
+            string maxWordLength = "";
+            if ((checkboxWGMaxWordLength.Checked == true) && (editWGMaxWordLength.Text != "")) maxWordLength = " --maxwordlength " + editWGMaxWordLength.Text;
+
+            p.StartInfo.Arguments = "--number " + editWGNumber.Text + " --markov \"" + editWGMarkovFile.Text + "\" --wordmap \"" + editWGWordlistMapFile.Text + "\" --output \"" + editWGOutputFile.Text + "\"" + weight + threads + minWordLength + maxWordLength;
             p.StartInfo.FileName = editSWordlistGenerator.Text;
             p.Start();
         }
@@ -232,6 +251,18 @@ namespace Wordlist_Zombie_GUI
             p.StartInfo.FileName = editSWordlistMapper.Text;
             p.Start();
         }
+
+        private void checkboxMinWordLength_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkboxWGMinWordLength.Checked == true) editWGMinWordLength.Enabled = true;
+            else editWGMinWordLength.Enabled = false;
+        }
+
+        private void checkboxWGMaxWordLength_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkboxWGMaxWordLength.Checked == true) editWGMaxWordLength.Enabled = true;
+            else editWGMaxWordLength.Enabled = false;
+        }
     }
 
     public class JsonSyncSettings
@@ -240,6 +271,11 @@ namespace Wordlist_Zombie_GUI
         public string jsonEditWGWordlistMapFile { get; set; }
         public string jsonEditWGOutputFile { get; set; }
         public string jsonEditWGNumber { get; set; }
+        public string jsonEditWGThreads { get; set; }
+        public bool jsonCheckboxWGMinWordLength { get; set; }
+        public bool jsonCheckboxWGMaxWordLength { get; set; }
+        public string jsonEditWGMinWordLength { get; set; }
+        public string jsonEditWGMaxWordLength { get; set; }
         public bool jsonRadioButtonWeightedOutput { get; set; }
         public bool jsonRadioButtonHalfWeightedOutput { get; set; }
         public bool jsonRadioButtonUnweightedOutput { get; set; }

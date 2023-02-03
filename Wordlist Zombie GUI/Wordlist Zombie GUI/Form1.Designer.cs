@@ -30,6 +30,12 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkboxWGMaxWordLength = new System.Windows.Forms.CheckBox();
+            this.checkboxWGMinWordLength = new System.Windows.Forms.CheckBox();
+            this.editWGMaxWordLength = new System.Windows.Forms.TextBox();
+            this.editWGMinWordLength = new System.Windows.Forms.TextBox();
+            this.editWGThreads = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButtonUnweightedOutput = new System.Windows.Forms.RadioButton();
             this.radioButtonHalfWeightedOutput = new System.Windows.Forms.RadioButton();
@@ -105,12 +111,18 @@
             this.tabControl1.Location = new System.Drawing.Point(13, 123);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(534, 252);
+            this.tabControl1.Size = new System.Drawing.Size(671, 284);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.checkboxWGMaxWordLength);
+            this.tabPage1.Controls.Add(this.checkboxWGMinWordLength);
+            this.tabPage1.Controls.Add(this.editWGMaxWordLength);
+            this.tabPage1.Controls.Add(this.editWGMinWordLength);
+            this.tabPage1.Controls.Add(this.editWGThreads);
+            this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.editWGNumber);
             this.tabPage1.Controls.Add(this.label11);
@@ -127,25 +139,83 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(526, 224);
+            this.tabPage1.Size = new System.Drawing.Size(663, 256);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Wordlist Generator";
+            // 
+            // checkboxWGMaxWordLength
+            // 
+            this.checkboxWGMaxWordLength.AutoSize = true;
+            this.checkboxWGMaxWordLength.Location = new System.Drawing.Point(330, 133);
+            this.checkboxWGMaxWordLength.Name = "checkboxWGMaxWordLength";
+            this.checkboxWGMaxWordLength.Size = new System.Drawing.Size(156, 19);
+            this.checkboxWGMaxWordLength.TabIndex = 29;
+            this.checkboxWGMaxWordLength.Text = "Maximum Word Length:";
+            this.checkboxWGMaxWordLength.UseVisualStyleBackColor = true;
+            this.checkboxWGMaxWordLength.CheckedChanged += new System.EventHandler(this.checkboxWGMaxWordLength_CheckedChanged);
+            // 
+            // checkboxWGMinWordLength
+            // 
+            this.checkboxWGMinWordLength.AutoSize = true;
+            this.checkboxWGMinWordLength.Location = new System.Drawing.Point(332, 101);
+            this.checkboxWGMinWordLength.Name = "checkboxWGMinWordLength";
+            this.checkboxWGMinWordLength.Size = new System.Drawing.Size(154, 19);
+            this.checkboxWGMinWordLength.TabIndex = 28;
+            this.checkboxWGMinWordLength.Text = "Minimum Word Length:";
+            this.checkboxWGMinWordLength.UseVisualStyleBackColor = true;
+            this.checkboxWGMinWordLength.CheckedChanged += new System.EventHandler(this.checkboxMinWordLength_CheckedChanged);
+            // 
+            // editWGMaxWordLength
+            // 
+            this.editWGMaxWordLength.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editWGMaxWordLength.Enabled = false;
+            this.editWGMaxWordLength.Location = new System.Drawing.Point(490, 129);
+            this.editWGMaxWordLength.Name = "editWGMaxWordLength";
+            this.editWGMaxWordLength.Size = new System.Drawing.Size(133, 23);
+            this.editWGMaxWordLength.TabIndex = 27;
+            // 
+            // editWGMinWordLength
+            // 
+            this.editWGMinWordLength.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editWGMinWordLength.Enabled = false;
+            this.editWGMinWordLength.Location = new System.Drawing.Point(490, 97);
+            this.editWGMinWordLength.Name = "editWGMinWordLength";
+            this.editWGMinWordLength.Size = new System.Drawing.Size(133, 23);
+            this.editWGMinWordLength.TabIndex = 25;
+            // 
+            // editWGThreads
+            // 
+            this.editWGThreads.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editWGThreads.Location = new System.Drawing.Point(183, 129);
+            this.editWGThreads.Name = "editWGThreads";
+            this.editWGThreads.Size = new System.Drawing.Size(133, 23);
+            this.editWGThreads.TabIndex = 23;
+            this.editWGThreads.Text = "50";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(32, 137);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(147, 15);
+            this.label12.TabIndex = 22;
+            this.label12.Text = "Number of Threads to use:";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.radioButtonUnweightedOutput);
             this.groupBox1.Controls.Add(this.radioButtonHalfWeightedOutput);
             this.groupBox1.Controls.Add(this.radioButtonWeightedOutput);
-            this.groupBox1.Location = new System.Drawing.Point(14, 122);
+            this.groupBox1.Location = new System.Drawing.Point(122, 154);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(498, 48);
+            this.groupBox1.Size = new System.Drawing.Size(418, 48);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             // 
             // radioButtonUnweightedOutput
             // 
             this.radioButtonUnweightedOutput.AutoSize = true;
-            this.radioButtonUnweightedOutput.Location = new System.Drawing.Point(353, 18);
+            this.radioButtonUnweightedOutput.Location = new System.Drawing.Point(283, 17);
             this.radioButtonUnweightedOutput.Name = "radioButtonUnweightedOutput";
             this.radioButtonUnweightedOutput.Size = new System.Drawing.Size(130, 19);
             this.radioButtonUnweightedOutput.TabIndex = 2;
@@ -155,7 +225,7 @@
             // radioButtonHalfWeightedOutput
             // 
             this.radioButtonHalfWeightedOutput.AutoSize = true;
-            this.radioButtonHalfWeightedOutput.Location = new System.Drawing.Point(177, 18);
+            this.radioButtonHalfWeightedOutput.Location = new System.Drawing.Point(133, 17);
             this.radioButtonHalfWeightedOutput.Name = "radioButtonHalfWeightedOutput";
             this.radioButtonHalfWeightedOutput.Size = new System.Drawing.Size(144, 19);
             this.radioButtonHalfWeightedOutput.TabIndex = 1;
@@ -166,7 +236,7 @@
             // 
             this.radioButtonWeightedOutput.AutoSize = true;
             this.radioButtonWeightedOutput.Checked = true;
-            this.radioButtonWeightedOutput.Location = new System.Drawing.Point(11, 18);
+            this.radioButtonWeightedOutput.Location = new System.Drawing.Point(10, 17);
             this.radioButtonWeightedOutput.Name = "radioButtonWeightedOutput";
             this.radioButtonWeightedOutput.Size = new System.Drawing.Size(117, 19);
             this.radioButtonWeightedOutput.TabIndex = 0;
@@ -177,7 +247,7 @@
             // editWGNumber
             // 
             this.editWGNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.editWGNumber.Location = new System.Drawing.Point(186, 96);
+            this.editWGNumber.Location = new System.Drawing.Point(183, 97);
             this.editWGNumber.Name = "editWGNumber";
             this.editWGNumber.Size = new System.Drawing.Size(133, 23);
             this.editWGNumber.TabIndex = 20;
@@ -185,7 +255,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(16, 104);
+            this.label11.Location = new System.Drawing.Point(13, 105);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(166, 15);
             this.label11.TabIndex = 19;
@@ -194,7 +264,7 @@
             // buttonWGOutputFileBrowse
             // 
             this.buttonWGOutputFileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWGOutputFileBrowse.Location = new System.Drawing.Point(492, 65);
+            this.buttonWGOutputFileBrowse.Location = new System.Drawing.Point(629, 65);
             this.buttonWGOutputFileBrowse.Name = "buttonWGOutputFileBrowse";
             this.buttonWGOutputFileBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonWGOutputFileBrowse.TabIndex = 18;
@@ -209,7 +279,7 @@
             this.editWGOutputFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editWGOutputFile.Location = new System.Drawing.Point(121, 66);
             this.editWGOutputFile.Name = "editWGOutputFile";
-            this.editWGOutputFile.Size = new System.Drawing.Size(365, 23);
+            this.editWGOutputFile.Size = new System.Drawing.Size(502, 23);
             this.editWGOutputFile.TabIndex = 17;
             this.editWGOutputFile.WordWrap = false;
             // 
@@ -225,7 +295,7 @@
             // buttonWGGenerate
             // 
             this.buttonWGGenerate.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonWGGenerate.Location = new System.Drawing.Point(207, 178);
+            this.buttonWGGenerate.Location = new System.Drawing.Point(275, 208);
             this.buttonWGGenerate.Name = "buttonWGGenerate";
             this.buttonWGGenerate.Size = new System.Drawing.Size(112, 40);
             this.buttonWGGenerate.TabIndex = 15;
@@ -236,7 +306,7 @@
             // buttonWGWordlistMapFileBrowse
             // 
             this.buttonWGWordlistMapFileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWGWordlistMapFileBrowse.Location = new System.Drawing.Point(492, 36);
+            this.buttonWGWordlistMapFileBrowse.Location = new System.Drawing.Point(629, 36);
             this.buttonWGWordlistMapFileBrowse.Name = "buttonWGWordlistMapFileBrowse";
             this.buttonWGWordlistMapFileBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonWGWordlistMapFileBrowse.TabIndex = 13;
@@ -251,7 +321,7 @@
             this.editWGWordlistMapFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editWGWordlistMapFile.Location = new System.Drawing.Point(121, 37);
             this.editWGWordlistMapFile.Name = "editWGWordlistMapFile";
-            this.editWGWordlistMapFile.Size = new System.Drawing.Size(365, 23);
+            this.editWGWordlistMapFile.Size = new System.Drawing.Size(502, 23);
             this.editWGWordlistMapFile.TabIndex = 12;
             this.editWGWordlistMapFile.WordWrap = false;
             // 
@@ -267,7 +337,7 @@
             // buttonWGMarkovFileBrowse
             // 
             this.buttonWGMarkovFileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWGMarkovFileBrowse.Location = new System.Drawing.Point(492, 9);
+            this.buttonWGMarkovFileBrowse.Location = new System.Drawing.Point(629, 9);
             this.buttonWGMarkovFileBrowse.Name = "buttonWGMarkovFileBrowse";
             this.buttonWGMarkovFileBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonWGMarkovFileBrowse.TabIndex = 10;
@@ -282,7 +352,7 @@
             this.editWGMarkovFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editWGMarkovFile.Location = new System.Drawing.Point(121, 10);
             this.editWGMarkovFile.Name = "editWGMarkovFile";
-            this.editWGMarkovFile.Size = new System.Drawing.Size(365, 23);
+            this.editWGMarkovFile.Size = new System.Drawing.Size(502, 23);
             this.editWGMarkovFile.TabIndex = 9;
             this.editWGMarkovFile.WordWrap = false;
             // 
@@ -307,7 +377,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(526, 224);
+            this.tabPage2.Size = new System.Drawing.Size(663, 256);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Markov Chain Thing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -315,7 +385,7 @@
             // buttonMCTGenerate
             // 
             this.buttonMCTGenerate.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonMCTGenerate.Location = new System.Drawing.Point(207, 66);
+            this.buttonMCTGenerate.Location = new System.Drawing.Point(275, 66);
             this.buttonMCTGenerate.Name = "buttonMCTGenerate";
             this.buttonMCTGenerate.Size = new System.Drawing.Size(112, 40);
             this.buttonMCTGenerate.TabIndex = 7;
@@ -326,7 +396,7 @@
             // buttonMCTOutputBrowse
             // 
             this.buttonMCTOutputBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMCTOutputBrowse.Location = new System.Drawing.Point(492, 36);
+            this.buttonMCTOutputBrowse.Location = new System.Drawing.Point(629, 36);
             this.buttonMCTOutputBrowse.Name = "buttonMCTOutputBrowse";
             this.buttonMCTOutputBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonMCTOutputBrowse.TabIndex = 5;
@@ -341,7 +411,7 @@
             this.editMCTOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editMCTOutput.Location = new System.Drawing.Point(70, 37);
             this.editMCTOutput.Name = "editMCTOutput";
-            this.editMCTOutput.Size = new System.Drawing.Size(416, 23);
+            this.editMCTOutput.Size = new System.Drawing.Size(553, 23);
             this.editMCTOutput.TabIndex = 4;
             this.editMCTOutput.WordWrap = false;
             // 
@@ -357,7 +427,7 @@
             // buttonMCTWordlistBrowse
             // 
             this.buttonMCTWordlistBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMCTWordlistBrowse.Location = new System.Drawing.Point(492, 9);
+            this.buttonMCTWordlistBrowse.Location = new System.Drawing.Point(629, 9);
             this.buttonMCTWordlistBrowse.Name = "buttonMCTWordlistBrowse";
             this.buttonMCTWordlistBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonMCTWordlistBrowse.TabIndex = 2;
@@ -372,7 +442,7 @@
             this.editMCTWordlist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editMCTWordlist.Location = new System.Drawing.Point(70, 10);
             this.editMCTWordlist.Name = "editMCTWordlist";
-            this.editMCTWordlist.Size = new System.Drawing.Size(416, 23);
+            this.editMCTWordlist.Size = new System.Drawing.Size(553, 23);
             this.editMCTWordlist.TabIndex = 1;
             this.editMCTWordlist.WordWrap = false;
             // 
@@ -396,7 +466,7 @@
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(526, 224);
+            this.tabPage3.Size = new System.Drawing.Size(663, 256);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Wordlist Mapper";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -404,7 +474,7 @@
             // buttonWMGenerate
             // 
             this.buttonWMGenerate.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonWMGenerate.Location = new System.Drawing.Point(207, 66);
+            this.buttonWMGenerate.Location = new System.Drawing.Point(275, 66);
             this.buttonWMGenerate.Name = "buttonWMGenerate";
             this.buttonWMGenerate.Size = new System.Drawing.Size(112, 40);
             this.buttonWMGenerate.TabIndex = 15;
@@ -415,7 +485,7 @@
             // buttonWMOutputBrowse
             // 
             this.buttonWMOutputBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWMOutputBrowse.Location = new System.Drawing.Point(492, 37);
+            this.buttonWMOutputBrowse.Location = new System.Drawing.Point(629, 36);
             this.buttonWMOutputBrowse.Name = "buttonWMOutputBrowse";
             this.buttonWMOutputBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonWMOutputBrowse.TabIndex = 13;
@@ -430,7 +500,7 @@
             this.editWMOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editWMOutput.Location = new System.Drawing.Point(70, 37);
             this.editWMOutput.Name = "editWMOutput";
-            this.editWMOutput.Size = new System.Drawing.Size(416, 23);
+            this.editWMOutput.Size = new System.Drawing.Size(553, 23);
             this.editWMOutput.TabIndex = 12;
             this.editWMOutput.WordWrap = false;
             // 
@@ -446,7 +516,7 @@
             // buttonWMWordlistBrowse
             // 
             this.buttonWMWordlistBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWMWordlistBrowse.Location = new System.Drawing.Point(492, 10);
+            this.buttonWMWordlistBrowse.Location = new System.Drawing.Point(629, 9);
             this.buttonWMWordlistBrowse.Name = "buttonWMWordlistBrowse";
             this.buttonWMWordlistBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonWMWordlistBrowse.TabIndex = 10;
@@ -461,7 +531,7 @@
             this.editWMWordlist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.editWMWordlist.Location = new System.Drawing.Point(70, 10);
             this.editWMWordlist.Name = "editWMWordlist";
-            this.editWMWordlist.Size = new System.Drawing.Size(416, 23);
+            this.editWMWordlist.Size = new System.Drawing.Size(553, 23);
             this.editWMWordlist.TabIndex = 9;
             this.editWMWordlist.WordWrap = false;
             // 
@@ -488,7 +558,7 @@
             this.tabPage4.Controls.Add(this.label4);
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(526, 224);
+            this.tabPage4.Size = new System.Drawing.Size(663, 256);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Settings";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -496,7 +566,7 @@
             // buttonSettingsResetToDefault
             // 
             this.buttonSettingsResetToDefault.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonSettingsResetToDefault.Location = new System.Drawing.Point(201, 127);
+            this.buttonSettingsResetToDefault.Location = new System.Drawing.Point(269, 106);
             this.buttonSettingsResetToDefault.Name = "buttonSettingsResetToDefault";
             this.buttonSettingsResetToDefault.Size = new System.Drawing.Size(125, 38);
             this.buttonSettingsResetToDefault.TabIndex = 16;
@@ -507,7 +577,7 @@
             // buttonSWordlistMapperBrowse
             // 
             this.buttonSWordlistMapperBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSWordlistMapperBrowse.Location = new System.Drawing.Point(493, 86);
+            this.buttonSWordlistMapperBrowse.Location = new System.Drawing.Point(629, 65);
             this.buttonSWordlistMapperBrowse.Name = "buttonSWordlistMapperBrowse";
             this.buttonSWordlistMapperBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonSWordlistMapperBrowse.TabIndex = 14;
@@ -520,16 +590,16 @@
             this.editSWordlistMapper.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.editSWordlistMapper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.editSWordlistMapper.Location = new System.Drawing.Point(133, 87);
+            this.editSWordlistMapper.Location = new System.Drawing.Point(133, 66);
             this.editSWordlistMapper.Name = "editSWordlistMapper";
-            this.editSWordlistMapper.Size = new System.Drawing.Size(354, 23);
+            this.editSWordlistMapper.Size = new System.Drawing.Size(490, 23);
             this.editSWordlistMapper.TabIndex = 13;
             this.editSWordlistMapper.WordWrap = false;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(29, 95);
+            this.label5.Location = new System.Drawing.Point(29, 74);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(98, 15);
             this.label5.TabIndex = 12;
@@ -538,7 +608,7 @@
             // buttonSMarkovChainThingBrowse
             // 
             this.buttonSMarkovChainThingBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSMarkovChainThingBrowse.Location = new System.Drawing.Point(493, 57);
+            this.buttonSMarkovChainThingBrowse.Location = new System.Drawing.Point(629, 36);
             this.buttonSMarkovChainThingBrowse.Name = "buttonSMarkovChainThingBrowse";
             this.buttonSMarkovChainThingBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonSMarkovChainThingBrowse.TabIndex = 11;
@@ -551,16 +621,16 @@
             this.editSMarkovChainThing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.editSMarkovChainThing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.editSMarkovChainThing.Location = new System.Drawing.Point(133, 58);
+            this.editSMarkovChainThing.Location = new System.Drawing.Point(133, 37);
             this.editSMarkovChainThing.Name = "editSMarkovChainThing";
-            this.editSMarkovChainThing.Size = new System.Drawing.Size(354, 23);
+            this.editSMarkovChainThing.Size = new System.Drawing.Size(490, 23);
             this.editSMarkovChainThing.TabIndex = 10;
             this.editSMarkovChainThing.WordWrap = false;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 66);
+            this.label3.Location = new System.Drawing.Point(10, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(117, 15);
             this.label3.TabIndex = 9;
@@ -569,7 +639,7 @@
             // buttonSWordlistGeneratorBrowse
             // 
             this.buttonSWordlistGeneratorBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSWordlistGeneratorBrowse.Location = new System.Drawing.Point(493, 30);
+            this.buttonSWordlistGeneratorBrowse.Location = new System.Drawing.Point(629, 9);
             this.buttonSWordlistGeneratorBrowse.Name = "buttonSWordlistGeneratorBrowse";
             this.buttonSWordlistGeneratorBrowse.Size = new System.Drawing.Size(24, 24);
             this.buttonSWordlistGeneratorBrowse.TabIndex = 8;
@@ -582,16 +652,16 @@
             this.editSWordlistGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.editSWordlistGenerator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.editSWordlistGenerator.Location = new System.Drawing.Point(133, 31);
+            this.editSWordlistGenerator.Location = new System.Drawing.Point(133, 10);
             this.editSWordlistGenerator.Name = "editSWordlistGenerator";
-            this.editSWordlistGenerator.Size = new System.Drawing.Size(354, 23);
+            this.editSWordlistGenerator.Size = new System.Drawing.Size(490, 23);
             this.editSWordlistGenerator.TabIndex = 7;
             this.editSWordlistGenerator.WordWrap = false;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 39);
+            this.label4.Location = new System.Drawing.Point(18, 18);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 15);
             this.label4.TabIndex = 6;
@@ -601,7 +671,7 @@
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.Image = global::Wordlist_Zombie_GUI.Properties.Resources.WordlistZombie;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 8);
+            this.pictureBox1.Location = new System.Drawing.Point(80, 8);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(530, 107);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -660,14 +730,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(556, 387);
+            this.ClientSize = new System.Drawing.Size(693, 419);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(572, 371);
             this.Name = "Form1";
-            this.Text = "Wordlist Zombie GUI v1.0.2-alpha";
+            this.Text = "Wordlist Zombie GUI v1.0.3-alpha";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -743,5 +813,11 @@
         private RadioButton radioButtonUnweightedOutput;
         private RadioButton radioButtonHalfWeightedOutput;
         private RadioButton radioButtonWeightedOutput;
+        private TextBox editWGThreads;
+        private Label label12;
+        private TextBox editWGMaxWordLength;
+        private TextBox editWGMinWordLength;
+        private CheckBox checkboxWGMaxWordLength;
+        private CheckBox checkboxWGMinWordLength;
     }
 }

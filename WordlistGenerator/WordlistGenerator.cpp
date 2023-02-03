@@ -9,9 +9,20 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <thread>
+#include <future>
 
 #define MAX_OUTSTR_LEN 1024*1024
 #define FILE_READ_BUFF_SIZE 1024*1024
+#define MAX_THREADS 1000
+#define DEFAULT_THREADS 50
+
+//RNG DEFINES
+#define N 624
+#define M 397
+#define MATRIX_A 0x9908b0dfUL   /* constant vector a */
+#define UPPER_MASK 0x80000000UL /* most significant w-r bits */
+#define LOWER_MASK 0x7fffffffUL /* least significant r bits */
 
 struct markovRootStruct {
 	unsigned long chr;
@@ -41,30 +52,48 @@ struct wordlistMapStruct {
 	double weight;
 };
 
+struct wgThreadStructt {
+	std::vector<std::vector<markovRootStruct*>>* positionRoot;
+	std::vector<std::vector<markovChr1Struct*>>* positionMarkov;
+	std::vector<wordlistMapStruct*>* wordlistMapVector;
+	int rnd;
+};
+
 double rand2()
 {
 	return (double)rand() / (double)RAND_MAX;
 }
 
-bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov);
-bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov);
-void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool unweightedOutput, bool halfweightedOutput);
-bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMapStruct*>& wordlistMapVector);
-void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool unweightedOutput, bool halfweightedOutput);
+bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool toStdout);
+bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool toStdout);
+void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool unweightedOutput, bool halfweightedOutput, bool toStdout);
+bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMapStruct*>& wordlistMapVector, bool toStdout, bool useMinWordLength, bool useMaxWordLength, int minWordLength, int maxWordLength);
+void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool unweightedOutput, bool halfweightedOutput, bool toStdout);
+unsigned char* threadGenerateWord(wgThreadStructt* ts);
+
+//RNG
+void init_genrand(unsigned long s, unsigned long* mt, int& mti);
+unsigned long genrand_int32(unsigned long* mt, int& mti);
+double genrand_real1(unsigned long* mt, int& mti);
+
+
 
 void outputHelp() {
 	std::cout << "WordlistGenerator Usage:\n\n"\
-				 "WordlistGenerator --number <Number of words to generate> --markov \"path\\to\\markov file.txt\" --wordmap \"path\\to\\word map file.txt\" --output \"path\\to\\output file.txt\"\n\n"\
-				 "Other Commands:\n"\
-				 "--help         : Output this help file\n"\
-				 "/?             : Also output this help file.\n"\
-				 "--unweighted   : Remove weighted output in an attempt to generate less duplicates.\n"\
-				 "--halfweighted : Relax the weighted output in an attempt to balance between weighted output and unweighted output.\n"\
-				 "--version      : version information\n";
+		"WordlistGenerator --number <Number of words to generate> --markov \"path\\to\\markov file.txt\" --wordmap \"path\\to\\word map file.txt\" --output \"path\\to\\output file.txt\"\n\n"\
+		"Other Commands:\n"\
+		"--help          : Output this help file\n"\
+		"/?              : Also output this help file.\n"\
+		"--unweighted    : Remove weighted output in an attempt to generate less duplicates.\n"\
+		"--halfweighted  : Relax the weighted output in an attempt to balance between weighted output and unweighted output.\n"\
+		"--threads       : Number of threads to use in wordlist generation.  Default is currently 50 threads.\n"\
+		"--minwordlength : Minimum output word length."\
+		"--maxwordlength : Maximum output word length."\
+		"--version       : version information\n";
 }
 
 void outputVersion() {
-	std::cout << "Version: Wordlist Generator v1.0.2-alpha - A part of the Wordlist Zombie program suite.\n";
+	std::cout << "Version: Wordlist Generator v1.0.3-alpha - A part of the Wordlist Zombie program suite.\n";
 }
 
 int main(int argc, char** argv)
@@ -81,7 +110,11 @@ int main(int argc, char** argv)
 	std::vector<wordlistMapStruct*> wordlistMapVector;
 
 	unsigned long long wordsToGenerate = 0;
-	bool unweightedOutput=false, halfweightedOutput=false;
+	unsigned long maxThreads = DEFAULT_THREADS;
+	bool unweightedOutput = false, halfweightedOutput = false;
+	bool toStdout = false;
+	bool useMinWordLength = false, useMaxWordLength = false;
+	int minWordLength = 0, maxWordLength = 0;
 
 	if (argc == 1) {
 		std::cout << "\nTry: WordlistGenerator --help\n";
@@ -114,6 +147,23 @@ int main(int argc, char** argv)
 				wordsToGenerate = strtoull(argv[i + 1], NULL, 10);
 			}
 		}
+		if (strcmp(argv[i], "--threads") == 0) {
+			if (argc >= i + 1) {
+				maxThreads = strtoul(argv[i + 1], NULL, 10);
+			}
+		}
+		if (strcmp(argv[i], "--minwordlength") == 0) {
+			if (argc >= i + 1) {
+				useMinWordLength = true;
+				minWordLength = strtoul(argv[i + 1], NULL, 10);
+			}
+		}
+		if (strcmp(argv[i], "--maxwordlength") == 0) {
+			if (argc >= i + 1) {
+				useMaxWordLength = true;
+				maxWordLength = strtoul(argv[i + 1], NULL, 10);
+			}
+		}
 		if (strcmp(argv[i], "--markov") == 0) {
 			if (argc >= i + 1) {
 				markov_file_path = argv[i + 1];
@@ -137,63 +187,137 @@ int main(int argc, char** argv)
 		}
 	}
 
+	if (output_file_path == nullptr) {
+		toStdout = true;
+	}
+
 	if (wordsToGenerate == 0) {
-		std::cout << "\n--number may not be excluded from command line, or 0.\n";
+		if (toStdout == false) std::cout << "\n--number may not be excluded from command line, or 0.\n";
 		return 0;
 	}
 
 	if ((markov_file_path == nullptr) && (wordlist_map_file_path == nullptr)) {
-		std::cout << "\n--markov and --wordmap may not be exluded from command line.\n";
+		if (toStdout == false) std::cout << "\n--markov and --wordmap may not be exluded from command line.\n";
 		return 0;
 	}
 
 	if (markov_file_path == nullptr) {
-		std::cout << "\n--markov may not be exluded from command line.\n";
+		if (toStdout == false) std::cout << "\n--markov may not be exluded from command line.\n";
 		return 0;
 	}
 
 	if (wordlist_map_file_path == nullptr) {
-		std::cout << "\n--wordmap may not be exluded from command line.\n";
-		return 0;
-	}
-
-	if (output_file_path == nullptr) {
-		std::cout << "\n--output may not be excluded from command line.\n";
+		if (toStdout == false) std::cout << "\n--wordmap may not be exluded from command line.\n";
 		return 0;
 	}
 
 	if ((unweightedOutput == true) && (halfweightedOutput == true)) {
-		std::cout << "\nYou may not use --unweighted and --halfweighted at the same time.\n";
+		if (toStdout == false) std::cout << "\nYou may not use --unweighted and --halfweighted at the same time.\n";
+		return 0;
+	}
+
+	if (maxThreads > MAX_THREADS) {
+		maxThreads = MAX_THREADS;
+		if (toStdout == false) std::cout << "\nMax threads is currently " << MAX_THREADS << ".  Using " << MAX_THREADS << " threads.\n";
 	}
 
 	if (markov_file_path != nullptr)
-		if (!loadMarkovChainFile(markov_file_path, positionRoot, positionMarkov)) return 0;
+		if (!loadMarkovChainFile(markov_file_path, positionRoot, positionMarkov, toStdout)) return 0;
 
-	setMarkovWeights(positionRoot, positionMarkov, unweightedOutput, halfweightedOutput);
+	setMarkovWeights(positionRoot, positionMarkov, unweightedOutput, halfweightedOutput, toStdout);
 
 	if (wordlist_map_file_path != nullptr)
-		if (!loadWordMapFile(wordlist_map_file_path, wordlistMapVector)) return 0;
+		if (!loadWordMapFile(wordlist_map_file_path, wordlistMapVector, toStdout, useMinWordLength, useMaxWordLength, minWordLength, maxWordLength)) return 0;
 
-	setWordMapWeights(wordlistMapVector, unweightedOutput, halfweightedOutput);
+	setWordMapWeights(wordlistMapVector, unweightedOutput, halfweightedOutput, toStdout);
 
 	srand(time(NULL));
 
-
-	std::cout << "Outputting results!";
-	std::ofstream outfile(output_file_path);
-
-	unsigned char* outstr = (unsigned char *)malloc(MAX_OUTSTR_LEN);
+	if (toStdout == false) std::cout << "Outputting results! Using " << maxThreads << " Threads!\n";
+	std::ofstream outfile;
+	if (toStdout == false) outfile.open(output_file_path);
 
 	int genPercent = 0;
 	int i = 0;
 
 	while (i < wordsToGenerate) {
-		//First get the wordlist mapping
-		double r = rand2();
+		//Lets launch us some threads straight into outer space!
+		wgThreadStructt* ts[MAX_THREADS];
+		std::future<unsigned char*> futures[MAX_THREADS];
+
+		for (int j = 0; j < maxThreads; j++) {
+			ts[j] = new wgThreadStructt();
+			ts[j]->positionMarkov = &positionMarkov;
+			ts[j]->positionRoot = &positionRoot;
+			ts[j]->wordlistMapVector = &wordlistMapVector;
+			ts[j]->rnd = rand();
+
+			futures[j] = std::async(threadGenerateWord, ts[j]);
+		}
+
+		for (int j = 0; j < maxThreads; j++) {
+			unsigned char* outstr = futures[j].get();
+			if (toStdout == false) outfile << outstr << "\n";
+			else std::cout << outstr << "\n";
+			free(outstr);
+			delete ts[j];
+		}
+
+		i += maxThreads;
+
+		if (100 * (i) / wordsToGenerate > genPercent) {
+			genPercent = 100 * (i) / wordsToGenerate;
+			if (toStdout == false) std::cout << "\r(" << genPercent << "% Complete)";
+		}
+		//i++;
+	}
+
+	if (toStdout == false) outfile.close();
+
+	//Free up memory before we exit.
+	for (int i = 0; i < positionRoot.size(); i++) {
+		unsigned long long totalCount = 0;
+		for (int j = 0; j < positionRoot[i].size(); j++) {
+			delete positionRoot[i][j];
+		}
+	}
+
+	for (int i = 0; i < positionMarkov.size(); i++) {
+		unsigned long long totalCount = 0;
+		for (int j = 0; j < positionMarkov[i].size(); j++) {
+			if (positionMarkov[i][j] != NULL) {
+				unsigned long long totalCount = 0;
+				for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
+					markovStruct* ms = positionMarkov[i][j]->msv->at(k);
+					delete ms;
+				}
+				delete positionMarkov[i][j]->msv;
+			}
+		}
+	}
+
+	if (toStdout == false) std::cout << "\nDone!\n";
+	return 0;
+}
+
+unsigned char* threadGenerateWord(wgThreadStructt* ts) {
+	unsigned char* outstr = (unsigned char*)malloc(MAX_OUTSTR_LEN);
+
+	static unsigned long mt[N]; /* the array for the state vector  */
+	static int mti = N + 1; /* mti==N+1 means mt[N] is not initialized */
+	init_genrand((unsigned long)time(NULL) ^ std::hash<std::thread::id>{}(std::this_thread::get_id()) ^ ts->rnd, mt, mti);
+
+	//srand((int)time(NULL) ^ std::hash<std::thread::id>{}(std::this_thread::get_id()));
+	//Other Options:
+	//std::hash<std::thread::id>{}(std::this_thread::get_id())
+	//std::hash<std::thread::id>()(std::this_thread::get_id())
+
+	while (true) {
+		double r = genrand_real1(mt, mti);
 		unsigned char* strMap = nullptr;
-		for (int j = 0; j < wordlistMapVector.size(); j++) {
-			if (r <= wordlistMapVector[j]->weight) {
-				strMap = wordlistMapVector[j]->strMap;
+		for (int j = 0; j < ts->wordlistMapVector->size(); j++) {
+			if (r <= ts->wordlistMapVector->at(j)->weight) {
+				strMap = ts->wordlistMapVector->at(j)->strMap;
 				break;
 			}
 		}
@@ -207,11 +331,11 @@ int main(int argc, char** argv)
 			//Try 100 times
 			int rcount = 0;
 			while ((chr0 == 0) && (rcount < 100)) {
-				r = rand2();
-				for (int j = 0; j < positionRoot[0].size(); j++) {
-					if ((r <= positionRoot[0][j]->weight) &&
-						(positionRoot[0][j]->chrmap == strMap[0])) {
-						chr0 = positionRoot[0][j]->chr;
+				r = genrand_real1(mt, mti);
+				for (int j = 0; j < ts->positionRoot->at(0).size(); j++) {
+					if ((r <= ts->positionRoot->at(0).at(j)->weight) &&
+						(ts->positionRoot->at(0).at(j)->chrmap == strMap[0])) {
+						chr0 = ts->positionRoot->at(0).at(j)->chr;
 						break;
 					}
 				}
@@ -236,10 +360,10 @@ int main(int argc, char** argv)
 				//Try 100 times
 				int rcount = 0;
 				while ((found == false) && (rcount < 100)) {
-					r = rand2();
-					for (int k = 0; k < positionMarkov[j].size(); k++) {
-						if (positionMarkov[j][k]->chr1 == prevchar) {
-							msv = positionMarkov[j][k]->msv;
+					r = genrand_real1(mt, mti);
+					for (int k = 0; k < ts->positionMarkov->at(j).size(); k++) {
+						if (ts->positionMarkov->at(j).at(k)->chr1 == prevchar) {
+							msv = ts->positionMarkov->at(j).at(k)->msv;
 							found = true;
 							break;
 						}
@@ -251,7 +375,7 @@ int main(int argc, char** argv)
 
 					rcount = 0;
 					while ((found2 == false) && (rcount < 100)) {
-						r = rand2();
+						r = genrand_real1(mt, mti);
 						for (int m = 0; m < msv->size(); m++) {
 							if ((r <= msv->at(m)->weight) && (msv->at(m)->chr2map == strMap[j])) {
 								nextchar = msv->at(m)->chr2;
@@ -262,22 +386,22 @@ int main(int argc, char** argv)
 						rcount++;
 					}
 					if (found2 == false) {
-						r = rand2();
+						r = genrand_real1(mt, mti);
 						//If no match is found then use root to compensate
-						for (int n = 0; n < positionRoot[j].size(); n++) {
-							if (r <= positionRoot[j][n]->weight) {
-								nextchar = positionRoot[j][n]->chr;
+						for (int n = 0; n < ts->positionRoot->at(j).size(); n++) {
+							if (r <= ts->positionRoot->at(j).at(n)->weight) {
+								nextchar = ts->positionRoot->at(j).at(n)->chr;
 								break;
 							}
 						}
 					}
 				}
 				else {
-					r = rand2();
+					r = genrand_real1(mt, mti);
 					//If no match is found then use root to compensate
-					for (int n = 0; n < positionRoot[j].size(); n++) {
-						if (r <= positionRoot[j][n]->weight) {
-							nextchar = positionRoot[j][n]->chr;
+					for (int n = 0; n < ts->positionRoot->at(j).size(); n++) {
+						if (r <= ts->positionRoot->at(j).at(n)->weight) {
+							nextchar = ts->positionRoot->at(j).at(n)->chr;
 							break;
 						}
 					}
@@ -298,46 +422,76 @@ int main(int argc, char** argv)
 		else {
 			continue;
 		}
-		outfile << outstr << "\n";
-		if (100 * (i + 1) / wordsToGenerate > genPercent) {
-			genPercent = 100 * (i + 1) / wordsToGenerate;
-			std::cout << "\rOutputting results! (" << genPercent << "% Complete)";
-		}
-		i++;
+		break;
 	}
 
-	outfile.close();
-	free(outstr);
+	return outstr;
+}
 
-	//Free up memory before we exit.
-	for (int i = 0; i < positionRoot.size(); i++) {
-		unsigned long long totalCount = 0;
-		for (int j = 0; j < positionRoot[i].size(); j++) {
-			delete positionRoot[i][j];
+/* initializes mt[N] with a seed */
+void init_genrand(unsigned long s, unsigned long* mt, int& mti)
+{
+	mt[0] = s & 0xffffffffUL;
+	for (mti = 1; mti < N; mti++) {
+		mt[mti] =
+			(1812433253UL * (mt[mti - 1] ^ (mt[mti - 1] >> 30)) + mti);
+		/* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
+		/* In the previous versions, MSBs of the seed affect   */
+		/* only MSBs of the array mt[].                        */
+		/* 2002/01/09 modified by Makoto Matsumoto             */
+		mt[mti] &= 0xffffffffUL;
+		/* for >32 bit machines */
+	}
+}
+
+/* generates a random number on [0,0xffffffff]-interval */
+unsigned long genrand_int32(unsigned long* mt, int& mti)
+{
+	unsigned long y;
+	static unsigned long mag01[2] = { 0x0UL, MATRIX_A };
+	/* mag01[x] = x * MATRIX_A  for x=0,1 */
+
+	if (mti >= N) { /* generate N words at one time */
+		int kk;
+
+		if (mti == N + 1)   /* if init_genrand() has not been called, */
+			init_genrand(5489UL, mt, mti); /* a default initial seed is used */
+
+		for (kk = 0; kk < N - M; kk++) {
+			y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+			mt[kk] = mt[kk + M] ^ (y >> 1) ^ mag01[y & 0x1UL];
 		}
+		for (; kk < N - 1; kk++) {
+			y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+			mt[kk] = mt[kk + (M - N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
+		}
+		y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
+		mt[N - 1] = mt[M - 1] ^ (y >> 1) ^ mag01[y & 0x1UL];
+
+		mti = 0;
 	}
 
-	for (int i = 0; i < positionMarkov.size(); i++) {
-		unsigned long long totalCount = 0;
-		for (int j = 0; j < positionMarkov[i].size(); j++) {
-			if (positionMarkov[i][j] != NULL) {
-				unsigned long long totalCount = 0;
-				for (int k = 0; k < positionMarkov[i][j]->msv->size(); k++) {
-					markovStruct* ms = positionMarkov[i][j]->msv->at(k);
-					delete ms;
-				}
-				delete positionMarkov[i][j]->msv;
-			}
-		}
-	}
+	y = mt[mti++];
 
-	std::cout << "\nDone!\n";
-	return 0;
+	/* Tempering */
+	y ^= (y >> 11);
+	y ^= (y << 7) & 0x9d2c5680UL;
+	y ^= (y << 15) & 0xefc60000UL;
+	y ^= (y >> 18);
+
+	return y;
+}
+
+/* generates a random number on [0,1]-real-interval */
+double genrand_real1(unsigned long* mt, int& mti)
+{
+	return genrand_int32(mt, mti) * (1.0 / 4294967295.0);
+	/* divided by 2^32-1 */
 }
 
 
-bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov) {
-	std::cout << "Processing Markov Chain File.\n";
+bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool toStdout) {
+	if (toStdout == false) std::cout << "Processing Markov Chain File.\n";
 
 	//I had to quit using ifstream, because it kept failing in the middle of reading files.
 	//So now I fell back to good old fopen, and fread from C and it works great.  I probably
@@ -345,7 +499,7 @@ bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<m
 
 	FILE* pFile = fopen(markov_file_path, "rb");
 	if (pFile == NULL) {
-		std::cout << "Could not open " << markov_file_path << std::endl;
+		if (toStdout == false) std::cout << "Could not open " << markov_file_path << std::endl;
 		return false;
 	}
 
@@ -372,7 +526,7 @@ bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<m
 
 					//Now we can use our shiny new line
 					linecount++;
-					if (processLineMarkovChainFile(lineBuff, linecount, positionRoot, positionMarkov) == false) {
+					if (processLineMarkovChainFile(lineBuff, linecount, positionRoot, positionMarkov, toStdout) == false) {
 						fclose(pFile);
 						free(getBuff);
 						free(lineBuff);
@@ -391,7 +545,7 @@ bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<m
 
 			//Now we can use our shiny new line
 			linecount++;
-			if (processLineMarkovChainFile(lineBuff, linecount, positionRoot, positionMarkov) == false) {
+			if (processLineMarkovChainFile(lineBuff, linecount, positionRoot, positionMarkov, toStdout) == false) {
 				fclose(pFile);
 				free(getBuff);
 				free(lineBuff);
@@ -409,7 +563,7 @@ bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<m
 		lineStart = 0;
 	} while (bytesRead != 0);
 
-	std::cout << "Processing Finished!  " << linecount << " Lines Processed.\n";
+	if (toStdout == false) std::cout << "Processing Finished!  " << linecount << " Lines Processed.\n";
 
 	fclose(pFile);
 	free(getBuff);
@@ -418,11 +572,11 @@ bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<m
 	return true;
 }
 
-bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov) {
+bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool toStdout) {
 	// check for invalid utf-8 (for a simple yes/no check, there is also utf8::is_valid function)
 	char* end_it = utf8::find_invalid(lineBuff, lineBuff + strlen(lineBuff));
 	if (end_it != lineBuff + strlen(lineBuff)) {
-		std::cout << "Invalid UTF-8 encoding detected at line " << linecount << "\n";
+		if (toStdout == false) std::cout << "Invalid UTF-8 encoding detected at line " << linecount << "\n";
 		return false;
 	}
 
@@ -433,8 +587,8 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 
 	//First Get Root
 	if (linecount == 1) {
-		if (strcmp(lineBuff,"Markov Chain Thing 1.0") != 0) {
-			std::cout << "Error: Invalid Markov Chain Thing File.\n";
+		if (strcmp(lineBuff, "Markov Chain Thing 1.0") != 0) {
+			if (toStdout == false) std::cout << "Error: Invalid Markov Chain Thing File.\n";
 			return false;
 		}
 	}
@@ -461,7 +615,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 				nextChr = utf8::next(nextIT, end_it);
 			}
 			catch (const std::exception& e) {
-				std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				if (toStdout == false) std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
 				return true;
 			}
 
@@ -493,7 +647,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 				nextChr1 = utf8::next(nextIT, end_it);
 			}
 			catch (const std::exception& e) {
-				std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				if (toStdout == false) std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
 				return true;
 			}
 
@@ -502,7 +656,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 				nextChr2 = utf8::next(nextIT, end_it);
 			}
 			catch (const std::exception& e) {
-				std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				if (toStdout == false) std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
 				return true;
 			}
 
@@ -551,10 +705,10 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 	return true;
 }
 
-void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool unweightedOutput, bool halfweightedOutput) {
-	
+void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot, std::vector<std::vector<markovChr1Struct*>>& positionMarkov, bool unweightedOutput, bool halfweightedOutput, bool toStdout) {
+
 	if ((unweightedOutput == false) && (halfweightedOutput == false)) {
-		std::cout << "Setting weights for Markov Chain.\n";
+		if (toStdout == false) std::cout << "Setting weights for Markov Chain.\n";
 
 		//Set Weights for Root
 		for (int i = 0; i < positionRoot.size(); i++) {
@@ -588,7 +742,7 @@ void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot,
 		}
 	}
 	else if (unweightedOutput == true) {
-		std::cout << "Unweighting the weights for Markov Chain.\n";
+		if (toStdout == false) std::cout << "Unweighting the weights for Markov Chain.\n";
 		//Set Equal Weights for Root
 		for (int i = 0; i < positionRoot.size(); i++) {
 			double c = (double)1 / (double)positionRoot[i].size();
@@ -617,7 +771,7 @@ void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot,
 	}
 	else if (halfweightedOutput == true) {
 		//Set Half-Weights for Root
-		std::cout << "Half-Weighting the weights for Markov Chain.\n";
+		if (toStdout == false) std::cout << "Half-Weighting the weights for Markov Chain.\n";
 		for (int i = 0; i < positionRoot.size(); i++) {
 			double c = (double)1 / (double)positionRoot[i].size();
 			unsigned long long totalCount = 0;
@@ -680,12 +834,12 @@ void setMarkovWeights(std::vector<std::vector<markovRootStruct*>>& positionRoot,
 
 }
 
-bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMapStruct*>& wordlistMapVector) {
-	std::cout << "Processing Wordlist Map File.\n";
+bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMapStruct*>& wordlistMapVector, bool toStdout, bool useMinWordLength, bool useMaxWordLength, int minWordLength, int maxWordLength) {
+	if (toStdout == false) std::cout << "Processing Wordlist Map File.\n";
 
 	std::ifstream fs(wordlist_map_file_path);
 	if (!fs.is_open()) {
-		std::cout << "Could not open " << wordlist_map_file_path << std::endl;
+		if (toStdout == false) std::cout << "Could not open " << wordlist_map_file_path << std::endl;
 		return false;
 	}
 
@@ -696,7 +850,7 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 
 		if (line_count == 1) {
 			if (line.compare("Wordlist Mapper 1.0") != 0) {
-				std::cout << "Error: Invalid Wordlist Mapper File.\n";
+				if (toStdout == false) std::cout << "Error: Invalid Wordlist Mapper File.\n";
 				return false;
 			}
 		}
@@ -707,6 +861,17 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 
 			unsigned char* strMapping = (unsigned char*)numberEnd + 1;
 
+			if (useMinWordLength == true) {
+				if (strlen((char*)strMapping) < minWordLength) {
+					continue;
+				}
+			}
+
+			if (useMaxWordLength == true) {
+				if (strlen((char*)strMapping) > maxWordLength) {
+					continue;
+				}
+			}
 
 			//Fill struct
 			wordlistMapStruct* wms = new wordlistMapStruct();
@@ -723,15 +888,15 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 		line_count++;
 	}
 
-	std::cout << "Processing Finished!  " << line_count << " Lines Processed.\n";
+	if (toStdout == false) std::cout << "Processing Finished!  " << line_count << " Lines Processed.\n";
 	fs.close();
 	return true;
 }
 
-void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool unweightedOutput, bool halfweightedOutput) {
+void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool unweightedOutput, bool halfweightedOutput, bool toStdout) {
 
 	if ((unweightedOutput == false) && (halfweightedOutput == false)) {
-		std::cout << "Setting weights for wordlist map.\n";
+		if (toStdout == false) std::cout << "Setting weights for wordlist map.\n";
 		unsigned long long totalCount = 0;
 		for (int i = 0; i < wordlistMapVector.size(); i++) {
 			totalCount += wordlistMapVector[i]->count;
@@ -742,7 +907,7 @@ void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool 
 		}
 	}
 	else if (unweightedOutput == true) {
-		std::cout << "Unweighting weights for wordlist map.\n";
+		if (toStdout == false) std::cout << "Unweighting weights for wordlist map.\n";
 		double c = (double)1 / (double)wordlistMapVector.size();
 
 		double prevweight = 0;
@@ -751,7 +916,7 @@ void setWordMapWeights(std::vector<wordlistMapStruct*>& wordlistMapVector, bool 
 		}
 	}
 	else if (halfweightedOutput == true) {
-		std::cout << "Half-Weighting weights for wordlist map.\n";
+		if (toStdout == false) std::cout << "Half-Weighting weights for wordlist map.\n";
 		double c = (double)1 / (double)wordlistMapVector.size();
 		unsigned long long totalCount = 0;
 		for (int i = 0; i < wordlistMapVector.size(); i++) {

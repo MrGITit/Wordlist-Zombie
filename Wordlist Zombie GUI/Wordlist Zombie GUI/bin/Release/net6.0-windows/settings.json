@@ -3,6 +3,7 @@
   "jsonEditWGWordlistMapFile": "C:\\wordlists\\rockyou.txt.wordmap.txt",
   "jsonEditWGOutputFile": "D:\\wordlists\\rockyou.txt.output.txt",
   "jsonEditWGNumber": "100000",
+  "jsonEditWGThreads": "50",
   "jsonRadioButtonWeightedOutput": true,
   "jsonRadioButtonHalfWeightedOutput": false,
   "jsonRadioButtonUnweightedOutput": false,

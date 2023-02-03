@@ -1,19 +1,18 @@
 ﻿  WordlistGenerator.cpp
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(145,16): warning C4129: '-': unrecognized character escape sequence
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(150,16): warning C4129: '-': unrecognized character escape sequence
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(155,16): warning C4129: '-': unrecognized character escape sequence
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(178,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(227,44): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(227,44): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(302,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(360,96): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(462,33): warning C4101: 'e': unreferenced local variable
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(494,33): warning C4101: 'e': unreferenced local variable
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(503,33): warning C4101: 'e': unreferenced local variable
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(234,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(248,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(258,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(269,27): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(308,118): warning C4267: 'argument': conversion from 'size_t' to 'unsigned long', possible loss of data
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(352,44): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(352,44): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(515,96): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(617,33): warning C4101: 'e': unreferenced local variable
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(649,33): warning C4101: 'e': unreferenced local variable
+C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(658,33): warning C4101: 'e': unreferenced local variable
   Generating code
   Previous IPDB not found, fall back to full compilation.
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistGenerator\WordlistGenerator.cpp(727): warning C4715: 'loadWordMapFile': not all control paths return a value
-  All 498 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 1272 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   WordlistGenerator.vcxproj -> C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\x64\Release\WordlistGenerator.exe
