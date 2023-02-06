@@ -36,7 +36,16 @@ WordlistGenerator --number (Number of words to generate) --markov "path\to\marko
 
 ## Wordlist Zombie GUI
 
-Wordlist Zombie GUI is a Graphical User Interface for the Wordilst Zombie suite of applications.  It is pictured in the screenshot above.  Just fill in the textboxes and hit generate, and it launches the proper program with the proper command line paramaters.
+There are now 2 versions of Wordlist Zombie GUI.  The Windows version coded in C#, and the portable (Linux) version coded in C using GTK4.
+Wordlist Zombie GUI is a Graphical User Interface for the Wordilst Zombie suite of applications.  The windows version is pictured in the screenshot above.  Just fill in the textboxes and hit generate, and it launches the proper program with the proper command line paramaters.
+
+## How to build (Linux)
+
+#### Build Depenedecies:
+
+In order to build Wordlist Zombie GUI Portable, you will need to install GTK4 [https://www.gtk.org/docs/installations/linux/](https://www.gtk.org/docs/installations/linux/).  You will need to install both the binary package, and the development package.
+
+To build, cd to the root directory, and type "make".
 
 ## Current State of things and relaxed roadmap
 
