@@ -193,26 +193,31 @@ int main(int argc, char** argv)
 
 	if (wordsToGenerate == 0) {
 		if (toStdout == false) std::cout << "\n--number may not be excluded from command line, or 0.\n";
+		else std::cerr << "\n--number may not be excluded from command line, or 0.\n";
 		return 0;
 	}
 
 	if ((markov_file_path == nullptr) && (wordlist_map_file_path == nullptr)) {
 		if (toStdout == false) std::cout << "\n--markov and --wordmap may not be exluded from command line.\n";
+		else std::cerr << "\n--markov and --wordmap may not be exluded from command line.\n";
 		return 0;
 	}
 
 	if (markov_file_path == nullptr) {
 		if (toStdout == false) std::cout << "\n--markov may not be exluded from command line.\n";
+		else std::cerr << "\n--markov may not be exluded from command line.\n";
 		return 0;
 	}
 
 	if (wordlist_map_file_path == nullptr) {
 		if (toStdout == false) std::cout << "\n--wordmap may not be exluded from command line.\n";
+		else std::cerr << "\nYou may not use --unweighted and --halfweighted at the same time.\n";
 		return 0;
 	}
 
 	if ((unweightedOutput == true) && (halfweightedOutput == true)) {
 		if (toStdout == false) std::cout << "\nYou may not use --unweighted and --halfweighted at the same time.\n";
+		else std::cerr << "\nYou may not use --unweighted and --halfweighted at the same time.\n";
 		return 0;
 	}
 
@@ -503,6 +508,7 @@ bool loadMarkovChainFile(const char* markov_file_path, std::vector<std::vector<m
 	FILE* pFile = fopen(markov_file_path, "rb");
 	if (pFile == NULL) {
 		if (toStdout == false) std::cout << "Could not open " << markov_file_path << std::endl;
+		else std::cerr << "Could not open " << markov_file_path << std::endl;
 		return false;
 	}
 
@@ -580,6 +586,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 	char* end_it = utf8::find_invalid(lineBuff, lineBuff + strlen(lineBuff));
 	if (end_it != lineBuff + strlen(lineBuff)) {
 		if (toStdout == false) std::cout << "Invalid UTF-8 encoding detected at line " << linecount << "\n";
+		else std::cerr << "Invalid UTF-8 encoding detected at line " << linecount << "\n";
 		return false;
 	}
 
@@ -592,6 +599,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 	if (linecount == 1) {
 		if (strcmp(lineBuff, "Markov Chain Thing 1.0") != 0) {
 			if (toStdout == false) std::cout << "Error: Invalid Markov Chain Thing File.\n";
+			else std::cerr << "Error: Invalid Markov Chain Thing File.\n";
 			return false;
 		}
 	}
@@ -619,6 +627,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 			}
 			catch (const std::exception& e) {
 				if (toStdout == false) std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				else std::cerr << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
 				return true;
 			}
 
@@ -651,6 +660,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 			}
 			catch (const std::exception& e) {
 				if (toStdout == false) std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				else std::cerr << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
 				return true;
 			}
 
@@ -660,6 +670,7 @@ bool processLineMarkovChainFile(char* lineBuff, unsigned long long linecount, st
 			}
 			catch (const std::exception& e) {
 				if (toStdout == false) std::cout << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
+				else std::cerr << "Warning: Small error reading Markov File. (Don't worrry, this probably isn't a problem)\n";
 				return true;
 			}
 
@@ -843,6 +854,7 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 	std::ifstream fs(wordlist_map_file_path);
 	if (!fs.is_open()) {
 		if (toStdout == false) std::cout << "Could not open " << wordlist_map_file_path << std::endl;
+		else std::cerr << "Could not open " << wordlist_map_file_path << std::endl;
 		return false;
 	}
 
@@ -854,6 +866,7 @@ bool loadWordMapFile(const char* wordlist_map_file_path, std::vector<wordlistMap
 		if (line_count == 1) {
 			if (line.compare("Wordlist Mapper 1.0") != 0) {
 				if (toStdout == false) std::cout << "Error: Invalid Wordlist Mapper File.\n";
+				else std::cerr << "Error: Invalid Wordlist Mapper File.\n";
 				return false;
 			}
 		}
