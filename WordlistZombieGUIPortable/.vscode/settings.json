@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "*.tcc": "c",
+        "chrono": "c",
+        "cstdlib": "c",
+        "system_error": "c",
+        "typeinfo": "c"
+    }
+}

@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkWindow" id="mainWindow">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Wordlist Zombie GUI v1.0.4-alpha</property>
+    <property name="resizable">False</property>
+    <child>
+      <object class="GtkFixed" id="fixed1">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkNotebook" id="Notebook">
+            <property name="width-request">720</property>
+            <property name="height-request">366</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="margin-start">20</property>
+            <property name="margin-end">20</property>
+            <property name="margin-bottom">20</property>
+            <child>
+              <object class="GtkFixed">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkEntry" id="editWGMarkovChainFile">
+                    <property name="width-request">510</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">136</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Markov Chain File:</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">17</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWGMarkovChainFileOpen">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWGMarkovChainFileOpen_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="width-request">122</property>
+                    <property name="height-request">20</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Wordlist Map File:</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">57</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWGWordlistMapFile">
+                    <property name="width-request">510</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">136</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWGWordlistMapFileOpen">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWGWordlistMapFileOpen_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="width-request">79</property>
+                    <property name="height-request">20</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Output File:</property>
+                  </object>
+                  <packing>
+                    <property name="x">53</property>
+                    <property name="y">95</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWGOutputFile">
+                    <property name="width-request">510</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">136</property>
+                    <property name="y">89</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWGOutputFileOpen">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWGOutputFileOpen_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">89</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Number of words to generate:</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">140</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWGNumber">
+                    <property name="width-request">167</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">217</property>
+                    <property name="y">131</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWGGenerate">
+                    <property name="label" translatable="yes">Generate</property>
+                    <property name="width-request">153</property>
+                    <property name="height-request">54</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWGGenerate_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">289</property>
+                    <property name="y">265</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="radioButtonWGHalfWeighted">
+                    <property name="label" translatable="yes">Half-Weighted Output</property>
+                    <property name="width-request">174</property>
+                    <property name="height-request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="draw-indicator">True</property>
+                    <property name="group">radioButtonWGWeighted</property>
+                  </object>
+                  <packing>
+                    <property name="x">277</property>
+                    <property name="y">220</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="radioButtonWGWeighted">
+                    <property name="label" translatable="yes">Weighted Output</property>
+                    <property name="width-request">143</property>
+                    <property name="height-request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">52</property>
+                    <property name="y">220</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="radioButtonWGUnweighted">
+                    <property name="label" translatable="yes">UnWeighted Output</property>
+                    <property name="width-request">161</property>
+                    <property name="height-request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="draw-indicator">True</property>
+                    <property name="group">radioButtonWGWeighted</property>
+                  </object>
+                  <packing>
+                    <property name="x">498</property>
+                    <property name="y">220</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Number of Threads to use:</property>
+                  </object>
+                  <packing>
+                    <property name="x">36</property>
+                    <property name="y">182</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWGThreads">
+                    <property name="width-request">167</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">217</property>
+                    <property name="y">174</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="checkboxWGMinWordLength">
+                    <property name="label" translatable="yes">Min Word Length:</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="draw-indicator">True</property>
+                    <signal name="toggled" handler="checkboxWFMinWordLength_toggled_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">391</property>
+                    <property name="y">131</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="checkboxWGMaxWordLength">
+                    <property name="label" translatable="yes">Max Word Length:</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="draw-indicator">True</property>
+                    <signal name="toggled" handler="checkboxWGMaxWordLength_toggled_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">388</property>
+                    <property name="y">174</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWGMinWordLength">
+                    <property name="width-request">167</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="opacity">0.5</property>
+                    <property name="editable">False</property>
+                  </object>
+                  <packing>
+                    <property name="x">537</property>
+                    <property name="y">131</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWGMaxWordLength">
+                    <property name="width-request">167</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="opacity">0.5000000002235174</property>
+                    <property name="editable">False</property>
+                  </object>
+                  <packing>
+                    <property name="x">537</property>
+                    <property name="y">174</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Wordlist Generator</property>
+              </object>
+              <packing>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Wordlist:</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">17</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Output:</property>
+                  </object>
+                  <packing>
+                    <property name="x">20</property>
+                    <property name="y">57</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editMCWordlist">
+                    <property name="width-request">572</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">76</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editMCOutput">
+                    <property name="width-request">572</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">76</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonMCWordlistBrowse">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonMCWordlistBrowse_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonMCOutputBrowse">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonMCOutputBrowse_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonMCGenerate">
+                    <property name="label" translatable="yes">Generate</property>
+                    <property name="width-request">153</property>
+                    <property name="height-request">54</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonMCGenerate_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">289</property>
+                    <property name="y">95</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Markov Chain Thing</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Wordlist:</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">17</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Output:</property>
+                  </object>
+                  <packing>
+                    <property name="x">20</property>
+                    <property name="y">57</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWMWordlist">
+                    <property name="width-request">572</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">76</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWMWordlistBrowse">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWMWordlistBrowse_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editWMOutput">
+                    <property name="width-request">572</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">76</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWMOutputBrowse">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWMOutputBrowse_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWMGenerate">
+                    <property name="label" translatable="yes">Generate</property>
+                    <property name="width-request">153</property>
+                    <property name="height-request">54</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWMGenerate_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">289</property>
+                    <property name="y">95</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Wordlist Mapper</property>
+              </object>
+              <packing>
+                <property name="position">2</property>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Wordlist Generator:</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">57</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Markov Chain Thing:</property>
+                  </object>
+                  <packing>
+                    <property name="x">12</property>
+                    <property name="y">97</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Wordlist Mapper:</property>
+                  </object>
+                  <packing>
+                    <property name="x">26</property>
+                    <property name="y">135</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editSWordlistGenerator">
+                    <property name="width-request">495</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">151</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonSWordlistGeneratorBrowse">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonSWordlistGeneratorBrowse_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">48</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editSMarkovChainThing">
+                    <property name="width-request">495</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">151</property>
+                    <property name="y">88</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonSMarkovChainThingBrowse">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonSMarkovChainThingBrowse_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">88</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editSWordlistMapper">
+                    <property name="width-request">495</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">151</property>
+                    <property name="y">129</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonSWordlistMapperBrowse">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonSWordlistMapperBrowse_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">129</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonSResetToDefault">
+                    <property name="label" translatable="yes">Reset To Default</property>
+                    <property name="width-request">153</property>
+                    <property name="height-request">54</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonSResetToDefault_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">289</property>
+                    <property name="y">176</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Terminal Command Line:</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">17</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="editSTerminalCommandLine">
+                    <property name="width-request">466</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">179</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonSTerminalCommandLineEdit">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="width-request">50</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonSTerminalCommandLineEdit_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">655</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Settings</property>
+              </object>
+              <packing>
+                <property name="position">3</property>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkLinkButton">
+                    <property name="label" translatable="yes">https://github.com/MrGITit/Wordlist-Zombie</property>
+                    <property name="width-request">337</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="relief">none</property>
+                    <property name="uri">https://github.com/MrGITit/Wordlist-Zombie</property>
+                  </object>
+                  <packing>
+                    <property name="x">172</property>
+                    <property name="y">237</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="width-request">520</property>
+                    <property name="height-request">48</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">About Wordlist Zombie</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans Bold 30"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="x">86</property>
+                    <property name="y">16</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="width-request">159</property>
+                    <property name="height-request">20</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Version: 1.0.4-alpha</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 12"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="x">260</property>
+                    <property name="y">210</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="width-request">484</property>
+                    <property name="height-request">57</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Bring your wordlists back to life with Wordlist Zombie!
+Wordlist Zombie uses Markov Chains, and 
+Consonant / Vowel maps to generate wordlists.</property>
+                    <property name="justify">center</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 12"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="x">104</property>
+                    <property name="y">66</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Coded by: PhillyStyle1026</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Sans 12"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="x">244</property>
+                    <property name="y">150</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">About</property>
+              </object>
+              <packing>
+                <property name="position">4</property>
+                <property name="tab-fill">False</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="y">122</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="selectTerminalWindow">
+    <property name="can-focus">False</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <child>
+      <object class="GtkFixed">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Select Your Terminal</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans 20"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">123</property>
+            <property name="y">12</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBoxText" id="comboSelectTerminal">
+            <property name="width-request">477</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">20</property>
+            <property name="margin-end">20</property>
+            <property name="active">0</property>
+            <items>
+              <item id="&lt;Enter ID&gt;" translatable="yes">gnome-terminal -- bash -c '%s; exec bash'</item>
+              <item translatable="yes">xterm -hold -e %s</item>
+              <item translatable="yes">konsole --hold -e %s</item>
+              <item translatable="yes">terminator -e '%s; bash'</item>
+            </items>
+          </object>
+          <packing>
+            <property name="y">48</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonSelectTerminalCancel">
+            <property name="label" translatable="yes">Cancel</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonSelectTerminalCancel_clicked_cb" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">399</property>
+            <property name="y">96</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonSelectTerminalOK">
+            <property name="label" translatable="yes">OK</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonSelectTerminalOK_clicked_cb" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">283</property>
+            <property name="y">96</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

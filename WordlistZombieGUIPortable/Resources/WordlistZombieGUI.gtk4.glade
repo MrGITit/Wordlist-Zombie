@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkWindow" id="mainWindow">
+    <property name="title" translatable="1">Wordlist Zombie GUI v1.0.4-alpha</property>
+    <property name="resizable">0</property>
+    <property name="child">
+      <object class="GtkFixed" id="fixed1">
+        <child>
+          <object class="GtkNotebook" id="Notebook">
+            <layout>
+              <property name="transform">translate(0, 122)</property>
+            </layout>
+            <property name="width-request">720</property>
+            <property name="height-request">366</property>
+            <property name="focusable">1</property>
+            <property name="margin-start">20</property>
+            <property name="margin-end">20</property>
+            <property name="margin-bottom">20</property>
+            <child>
+              <object class="GtkNotebookPage">
+                <property name="child">
+                  <object class="GtkFixed">
+                    <child>
+                      <object class="GtkEntry" id="editWGMarkovChainFile">
+                        <layout>
+                          <property name="transform">translate(136, 8)</property>
+                        </layout>
+                        <property name="width-request">510</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(10, 17)</property>
+                        </layout>
+                        <property name="label" translatable="1">Markov Chain File:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWGMarkovChainFileOpen">
+                        <layout>
+                          <property name="transform">translate(655, 8)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWGMarkovChainFileOpen_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(10, 57)</property>
+                        </layout>
+                        <property name="width-request">122</property>
+                        <property name="height-request">20</property>
+                        <property name="label" translatable="1">Wordlist Map File:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWGWordlistMapFile">
+                        <layout>
+                          <property name="transform">translate(136, 48)</property>
+                        </layout>
+                        <property name="width-request">510</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWGWordlistMapFileOpen">
+                        <layout>
+                          <property name="transform">translate(655, 48)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWGWordlistMapFileOpen_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(53, 95)</property>
+                        </layout>
+                        <property name="width-request">79</property>
+                        <property name="height-request">20</property>
+                        <property name="label" translatable="1">Output File:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWGOutputFile">
+                        <layout>
+                          <property name="transform">translate(136, 89)</property>
+                        </layout>
+                        <property name="width-request">510</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWGOutputFileOpen">
+                        <layout>
+                          <property name="transform">translate(655, 89)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWGOutputFileOpen_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(10, 140)</property>
+                        </layout>
+                        <property name="label" translatable="1">Number of words to generate:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWGNumber">
+                        <layout>
+                          <property name="transform">translate(217, 131)</property>
+                        </layout>
+                        <property name="width-request">167</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWGGenerate">
+                        <layout>
+                          <property name="transform">translate(289, 265)</property>
+                        </layout>
+                        <property name="label" translatable="1">Generate</property>
+                        <property name="width-request">153</property>
+                        <property name="height-request">54</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWGGenerate_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="radioButtonWGHalfWeighted">
+                        <layout>
+                          <property name="transform">translate(277, 220)</property>
+                        </layout>
+                        <property name="label" translatable="1">Half-Weighted Output</property>
+                        <property name="width-request">174</property>
+                        <property name="height-request">40</property>
+                        <property name="group">radioButtonWGWeighted</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="radioButtonWGWeighted">
+                        <layout>
+                          <property name="transform">translate(52, 220)</property>
+                        </layout>
+                        <property name="label" translatable="1">Weighted Output</property>
+                        <property name="width-request">143</property>
+                        <property name="height-request">40</property>
+                        <property name="active">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="radioButtonWGUnweighted">
+                        <layout>
+                          <property name="transform">translate(498, 220)</property>
+                        </layout>
+                        <property name="label" translatable="1">UnWeighted Output</property>
+                        <property name="width-request">161</property>
+                        <property name="height-request">40</property>
+                        <property name="group">radioButtonWGWeighted</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(36, 182)</property>
+                        </layout>
+                        <property name="label" translatable="1">Number of Threads to use:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWGThreads">
+                        <layout>
+                          <property name="transform">translate(217, 174)</property>
+                        </layout>
+                        <property name="width-request">167</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="checkboxWGMinWordLength">
+                        <layout>
+                          <property name="transform">translate(391, 131)</property>
+                        </layout>
+                        <property name="label" translatable="1">Min Word Length:</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <signal name="toggled" handler="checkboxWFMinWordLength_toggled_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="checkboxWGMaxWordLength">
+                        <layout>
+                          <property name="transform">translate(388, 174)</property>
+                        </layout>
+                        <property name="label" translatable="1">Max Word Length:</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <signal name="toggled" handler="checkboxWGMaxWordLength_toggled_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWGMinWordLength">
+                        <layout>
+                          <property name="transform">translate(537, 131)</property>
+                        </layout>
+                        <property name="width-request">167</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="opacity">0.5</property>
+                        <property name="editable">0</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWGMaxWordLength">
+                        <layout>
+                          <property name="transform">translate(537, 174)</property>
+                        </layout>
+                        <property name="width-request">167</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="opacity">0.5000000002235174</property>
+                        <property name="editable">0</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="tab">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="1">Wordlist Generator</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkNotebookPage">
+                <property name="position">1</property>
+                <property name="child">
+                  <object class="GtkFixed">
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(10, 17)</property>
+                        </layout>
+                        <property name="label" translatable="1">Wordlist:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(20, 57)</property>
+                        </layout>
+                        <property name="label" translatable="1">Output:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editMCWordlist">
+                        <layout>
+                          <property name="transform">translate(76, 8)</property>
+                        </layout>
+                        <property name="width-request">572</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editMCOutput">
+                        <layout>
+                          <property name="transform">translate(76, 48)</property>
+                        </layout>
+                        <property name="width-request">572</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonMCWordlistBrowse">
+                        <layout>
+                          <property name="transform">translate(655, 8)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonMCWordlistBrowse_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonMCOutputBrowse">
+                        <layout>
+                          <property name="transform">translate(655, 48)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonMCOutputBrowse_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonMCGenerate">
+                        <layout>
+                          <property name="transform">translate(289, 95)</property>
+                        </layout>
+                        <property name="label" translatable="1">Generate</property>
+                        <property name="width-request">153</property>
+                        <property name="height-request">54</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonMCGenerate_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="tab">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="1">Markov Chain Thing</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkNotebookPage">
+                <property name="position">2</property>
+                <property name="child">
+                  <object class="GtkFixed">
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(10, 17)</property>
+                        </layout>
+                        <property name="label" translatable="1">Wordlist:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(20, 57)</property>
+                        </layout>
+                        <property name="label" translatable="1">Output:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWMWordlist">
+                        <layout>
+                          <property name="transform">translate(76, 8)</property>
+                        </layout>
+                        <property name="width-request">572</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWMWordlistBrowse">
+                        <layout>
+                          <property name="transform">translate(655, 8)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWMWordlistBrowse_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editWMOutput">
+                        <layout>
+                          <property name="transform">translate(76, 48)</property>
+                        </layout>
+                        <property name="width-request">572</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWMOutputBrowse">
+                        <layout>
+                          <property name="transform">translate(655, 48)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWMOutputBrowse_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWMGenerate">
+                        <layout>
+                          <property name="transform">translate(289, 95)</property>
+                        </layout>
+                        <property name="label" translatable="1">Generate</property>
+                        <property name="width-request">153</property>
+                        <property name="height-request">54</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWMGenerate_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="tab">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="1">Wordlist Mapper</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkNotebookPage">
+                <property name="position">3</property>
+                <property name="child">
+                  <object class="GtkFixed">
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(10, 57)</property>
+                        </layout>
+                        <property name="label" translatable="1">Wordlist Generator:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(12, 97)</property>
+                        </layout>
+                        <property name="label" translatable="1">Markov Chain Thing:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(26, 135)</property>
+                        </layout>
+                        <property name="label" translatable="1">Wordlist Mapper:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editSWordlistGenerator">
+                        <layout>
+                          <property name="transform">translate(151, 48)</property>
+                        </layout>
+                        <property name="width-request">495</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonSWordlistGeneratorBrowse">
+                        <layout>
+                          <property name="transform">translate(655, 48)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonSWordlistGeneratorBrowse_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editSMarkovChainThing">
+                        <layout>
+                          <property name="transform">translate(151, 88)</property>
+                        </layout>
+                        <property name="width-request">495</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonSMarkovChainThingBrowse">
+                        <layout>
+                          <property name="transform">translate(655, 88)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonSMarkovChainThingBrowse_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editSWordlistMapper">
+                        <layout>
+                          <property name="transform">translate(151, 129)</property>
+                        </layout>
+                        <property name="width-request">495</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonSWordlistMapperBrowse">
+                        <layout>
+                          <property name="transform">translate(655, 129)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonSWordlistMapperBrowse_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonSResetToDefault">
+                        <layout>
+                          <property name="transform">translate(289, 176)</property>
+                        </layout>
+                        <property name="label" translatable="1">Reset To Default</property>
+                        <property name="width-request">153</property>
+                        <property name="height-request">54</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonSResetToDefault_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(10, 17)</property>
+                        </layout>
+                        <property name="label" translatable="1">Terminal Command Line:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="editSTerminalCommandLine">
+                        <layout>
+                          <property name="transform">translate(179, 8)</property>
+                        </layout>
+                        <property name="width-request">466</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonSTerminalCommandLineEdit">
+                        <layout>
+                          <property name="transform">translate(655, 8)</property>
+                        </layout>
+                        <property name="label" translatable="1">...</property>
+                        <property name="width-request">50</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonSTerminalCommandLineEdit_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="tab">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="1">Settings</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkNotebookPage">
+                <property name="position">4</property>
+                <property name="child">
+                  <object class="GtkFixed">
+                    <child>
+                      <object class="GtkLinkButton">
+                        <layout>
+                          <property name="transform">translate(172, 237)</property>
+                        </layout>
+                        <property name="label" translatable="1">https://github.com/MrGITit/Wordlist-Zombie</property>
+                        <property name="width-request">337</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <property name="uri">https://github.com/MrGITit/Wordlist-Zombie</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(86, 16)</property>
+                        </layout>
+                        <property name="width-request">520</property>
+                        <property name="height-request">48</property>
+                        <property name="label" translatable="1">About Wordlist Zombie</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans Bold 30"></attribute>
+                        </attributes>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(260, 210)</property>
+                        </layout>
+                        <property name="width-request">159</property>
+                        <property name="height-request">20</property>
+                        <property name="label" translatable="1">Version: 1.0.4-alpha</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 12"></attribute>
+                        </attributes>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(104, 66)</property>
+                        </layout>
+                        <property name="width-request">484</property>
+                        <property name="height-request">57</property>
+                        <property name="label" translatable="1">Bring your wordlists back to life with Wordlist Zombie!
+Wordlist Zombie uses Markov Chains, and 
+Consonant / Vowel maps to generate wordlists.</property>
+                        <property name="justify">center</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 12"></attribute>
+                        </attributes>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <layout>
+                          <property name="transform">translate(244, 150)</property>
+                        </layout>
+                        <property name="label" translatable="1">Coded by: PhillyStyle1026</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans 12"></attribute>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="tab">
+                  <object class="GtkLabel">
+                    <property name="label" translatable="1">About</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
+  <object class="GtkWindow" id="selectTerminalWindow">
+    <property name="resizable">0</property>
+    <property name="modal">1</property>
+    <property name="child">
+      <object class="GtkFixed">
+        <child>
+          <object class="GtkLabel">
+            <layout>
+              <property name="transform">translate(123, 12)</property>
+            </layout>
+            <property name="label" translatable="1">Select Your Terminal</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans 20"></attribute>
+            </attributes>
+          </object>
+        </child>
+        <child>
+          <object class="GtkComboBoxText" id="comboSelectTerminal">
+            <layout>
+              <property name="transform">translate(0, 48)</property>
+            </layout>
+            <property name="width-request">477</property>
+            <property name="height-request">34</property>
+            <property name="margin-start">20</property>
+            <property name="margin-end">20</property>
+            <property name="active">0</property>
+            <items>
+              <item id="&lt;Enter ID&gt;" translatable="yes">gnome-terminal -- bash -c &apos;%s; exec bash&apos;</item>
+              <item translatable="yes">xterm -hold -e %s</item>
+              <item translatable="yes">konsole --hold -e %s</item>
+              <item translatable="yes">terminator -e &apos;%s; bash&apos;</item>
+            </items>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonSelectTerminalCancel">
+            <layout>
+              <property name="transform">translate(399, 96)</property>
+            </layout>
+            <property name="label" translatable="1">Cancel</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="focusable">1</property>
+            <property name="receives-default">1</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonSelectTerminalCancel_clicked_cb" swapped="no"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonSelectTerminalOK">
+            <layout>
+              <property name="transform">translate(283, 96)</property>
+            </layout>
+            <property name="label" translatable="1">OK</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="focusable">1</property>
+            <property name="receives-default">1</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonSelectTerminalOK_clicked_cb" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
+</interface>
