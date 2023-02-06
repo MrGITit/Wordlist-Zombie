@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# Blend for Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MarkovChainThing", "MarkovChainThing\MarkovChainThing.vcxproj", "{39563796-84AC-47FA-AC23-921A69929166}"
@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WordlistGenerator", "Wordli
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WordlistMapper", "WordlistMapper\WordlistMapper\WordlistMapper.vcxproj", "{80B4A97D-90F2-4B7B-92F8-EB48E74643E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wordlist Zombie GUI", "Wordlist Zombie GUI\Wordlist Zombie GUI\Wordlist Zombie GUI.csproj", "{61245AEB-0AA2-45F1-9BFD-5A6F376FD418}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wordlist Zombie GUI", "WordlistZombieGUIWindows\Wordlist Zombie GUI\Wordlist Zombie GUI.csproj", "{61245AEB-0AA2-45F1-9BFD-5A6F376FD418}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
