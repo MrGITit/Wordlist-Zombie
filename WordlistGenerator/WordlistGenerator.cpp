@@ -267,7 +267,10 @@ int main(int argc, char** argv)
 
 		if (100 * (i) / wordsToGenerate > genPercent) {
 			genPercent = 100 * (i) / wordsToGenerate;
-			if (toStdout == false) std::cout << "\r(" << genPercent << "% Complete)";
+			if (toStdout == false) {
+				std::cout << "\r(" << genPercent << "% Complete)";
+				fflush(stdout);
+			}
 		}
 		//i++;
 	}
