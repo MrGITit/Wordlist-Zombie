@@ -24,7 +24,7 @@ void outputHelp() {
 }
 
 void outputVersion() {
-	std::cout << "Version: Wordlist Mapper v1.0.3-alpha - A part of the Wordlist Zombie program suite.\n";
+	std::cout << "Version: Wordlist Mapper v1.0.4-alpha - A part of the Wordlist Zombie program suite.\n";
 }
 
 int main(int argc, char** argv)

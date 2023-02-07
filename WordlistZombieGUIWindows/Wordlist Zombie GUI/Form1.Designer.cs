@@ -79,6 +79,10 @@
             this.buttonSWordlistGeneratorBrowse = new System.Windows.Forms.Button();
             this.editSWordlistGenerator = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.openFileDialogWGMarkovFile = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogWGWordlistMapFile = new System.Windows.Forms.OpenFileDialog();
@@ -96,6 +100,7 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,6 +113,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Location = new System.Drawing.Point(13, 123);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -667,6 +673,52 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Wordlist Generator:";
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.linkLabel1);
+            this.tabPage5.Controls.Add(this.label14);
+            this.tabPage5.Controls.Add(this.label13);
+            this.tabPage5.Location = new System.Drawing.Point(4, 24);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(663, 256);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "About";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(207, 219);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(248, 15);
+            this.linkLabel1.TabIndex = 2;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "https://github.com/MrGITit/Wordlist-Zombie";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label14.Location = new System.Drawing.Point(138, 56);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(387, 147);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "Bring your wordlists back to life with Wordlist Zombie!\r\nWordlist Zombie uses Mar" +
+    "kov Chains, and\r\nConsonant / Vowel maps to generate wordlists.\r\n\r\nCoded by: Phil" +
+    "lyStyle1026\r\n\r\nVersion: 1.0.4-alpha";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label13.Location = new System.Drawing.Point(99, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(465, 54);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "About Wordlist Zombie";
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -737,7 +789,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(572, 371);
             this.Name = "Form1";
-            this.Text = "Wordlist Zombie GUI v1.0.3-alpha";
+            this.Text = "Wordlist Zombie GUI v1.0.4-alpha";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -750,6 +802,8 @@
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -819,5 +873,9 @@
         private TextBox editWGMinWordLength;
         private CheckBox checkboxWGMaxWordLength;
         private CheckBox checkboxWGMinWordLength;
+        private TabPage tabPage5;
+        private LinkLabel linkLabel1;
+        private Label label14;
+        private Label label13;
     }
 }

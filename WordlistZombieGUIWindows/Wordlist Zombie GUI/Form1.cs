@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Security.Policy;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -229,8 +230,8 @@ namespace Wordlist_Zombie_GUI
             string maxWordLength = "";
             if ((checkboxWGMaxWordLength.Checked == true) && (editWGMaxWordLength.Text != "")) maxWordLength = " --maxwordlength " + editWGMaxWordLength.Text;
 
-            p.StartInfo.Arguments = "--number " + editWGNumber.Text + " --markov \"" + editWGMarkovFile.Text + "\" --wordmap \"" + editWGWordlistMapFile.Text + "\" --output \"" + editWGOutputFile.Text + "\"" + weight + threads + minWordLength + maxWordLength;
-            p.StartInfo.FileName = editSWordlistGenerator.Text;
+            p.StartInfo.Arguments = "/K \"\"" + editSWordlistGenerator.Text + "\" --number " + editWGNumber.Text + " --markov \"" + editWGMarkovFile.Text + "\" --wordmap \"" + editWGWordlistMapFile.Text + "\" --output \"" + editWGOutputFile.Text + "\"" + weight + threads + minWordLength + maxWordLength + "\"";
+            p.StartInfo.FileName = "cmd";
             p.Start();
         }
 
@@ -262,6 +263,11 @@ namespace Wordlist_Zombie_GUI
         {
             if (checkboxWGMaxWordLength.Checked == true) editWGMaxWordLength.Enabled = true;
             else editWGMaxWordLength.Enabled = false;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo { FileName = "https://github.com/MrGITit/Wordlist-Zombie", UseShellExecute = true });
         }
     }
 
