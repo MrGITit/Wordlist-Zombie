@@ -16,25 +16,3 @@ C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\Wordlist Zombie
 C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\Wordlist Zombie GUI\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.pdb
 C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\Wordlist Zombie GUI\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.genruntimeconfig.cache
 C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\Wordlist Zombie GUI\Wordlist Zombie GUI\obj\Release\net6.0-windows\ref\Wordlist Zombie GUI.dll
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\Wordlist Zombie GUI.exe
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\Wordlist Zombie GUI.deps.json
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\Wordlist Zombie GUI.runtimeconfig.json
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\Wordlist Zombie GUI.dll
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\Wordlist Zombie GUI.pdb
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\System.Text.Encodings.Web.dll
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\System.Text.Json.dll
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\bin\Release\net6.0-windows\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.csproj.AssemblyReference.cache
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist_Zombie_GUI.Form1.resources
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist_Zombie_GUI.Properties.Resources.resources
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.csproj.GenerateResource.cache
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.AssemblyInfoInputs.cache
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.AssemblyInfo.cs
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.csproj.CoreCompileInputs.cache
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.csproj.CopyComplete
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.dll
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\refint\Wordlist Zombie GUI.dll
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.pdb
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\Wordlist Zombie GUI.genruntimeconfig.cache
-C:\Users\Owner\Documents\Dev\cpp\Wordlist Zombie\Wordlist-Zombie\WordlistZombieGUIWindows\Wordlist Zombie GUI\obj\Release\net6.0-windows\ref\Wordlist Zombie GUI.dll
