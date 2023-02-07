@@ -464,7 +464,7 @@ void buttonWGGenerate_clicked_cb(GtkButton *b)
 {
     char formatbuff[4096];
     char outbuff[4096];
-    char *format = "%s --number %s --markov \"%s\" --wordmap \"%s\" --output \"%s\"";
+    char *format = "\"%s\" --number %s --markov \"%s\" --wordmap \"%s\" --output \"%s\"";
     GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(editSTerminalCommandLine));
     char *terminalCommandLine = (char *)gtk_entry_buffer_get_text(buffer);
 
@@ -557,7 +557,7 @@ void buttonMCGenerate_clicked_cb(GtkButton *b)
 {
     char formatbuff[4096];
     char outbuff[4096];
-    char *format = "%s --wordlist \"%s\" --output \"%s\"";
+    char *format = "\"%s\" --wordlist \"%s\" --output \"%s\"";
     GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(editSTerminalCommandLine));
     char *terminalCommandLine = (char *)gtk_entry_buffer_get_text(buffer);
 
@@ -581,7 +581,7 @@ void buttonWMGenerate_clicked_cb(GtkButton *b)
 {
     char formatbuff[4096];
     char outbuff[4096];
-    char *format = "%s --wordlist \"%s\" --output \"%s\"";
+    char *format = "\"%s\" --wordlist \"%s\" --output \"%s\"";
     GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(editSTerminalCommandLine));
     char *terminalCommandLine = (char *)gtk_entry_buffer_get_text(buffer);
 
