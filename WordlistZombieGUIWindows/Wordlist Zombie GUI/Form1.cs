@@ -8,6 +8,8 @@ namespace Wordlist_Zombie_GUI
 {
     public partial class Form1 : Form
     {
+        FormCommand commandDlg = new FormCommand();
+
         public Form1()
         {
             InitializeComponent();
@@ -239,8 +241,8 @@ namespace Wordlist_Zombie_GUI
         {
             Process p = new Process();
             p.StartInfo.UseShellExecute = true;
-            p.StartInfo.Arguments = "--wordlist \"" + editMCTWordlist.Text + "\" --output \"" + editMCTOutput.Text + "\"";
-            p.StartInfo.FileName = editSMarkovChainThing.Text;
+            p.StartInfo.Arguments = "/K \"\"" + editSMarkovChainThing.Text + "\" --wordlist \"" + editMCTWordlist.Text + "\" --output \"" + editMCTOutput.Text + "\"\"";
+            p.StartInfo.FileName = "cmd";
             p.Start();
         }
 
@@ -248,8 +250,8 @@ namespace Wordlist_Zombie_GUI
         {
             Process p = new Process();
             p.StartInfo.UseShellExecute = true;
-            p.StartInfo.Arguments = "--wordlist \"" + editWMWordlist.Text + "\" --output \"" + editWMOutput.Text + "\"";
-            p.StartInfo.FileName = editSWordlistMapper.Text;
+            p.StartInfo.Arguments = "/K \"\"" + editSWordlistMapper.Text + "\" --wordlist \"" + editWMWordlist.Text + "\" --output \"" + editWMOutput.Text + "\"\"";
+            p.StartInfo.FileName = "cmd";
             p.Start();
         }
 
@@ -268,6 +270,49 @@ namespace Wordlist_Zombie_GUI
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(new ProcessStartInfo { FileName = "https://github.com/MrGITit/Wordlist-Zombie", UseShellExecute = true });
+        }
+
+        private void buttonWGCommand_Click(object sender, EventArgs e)
+        {
+            Point p = new Point(this.Left + this.Width / 2 - commandDlg.Width / 2, this.Top + this.Height / 2 - commandDlg.Height / 2);
+            commandDlg.Location = p;
+
+            string weight = "";
+            if (radioButtonUnweightedOutput.Checked == true) weight = " --unweighted";
+            else if (radioButtonHalfWeightedOutput.Checked == true) weight = " --halfweighted";
+
+            string threads = "";
+            if ((editWGThreads.Text != "50") && (editWGThreads.Text != "")) threads = " --threads " + editWGThreads.Text;
+
+            string minWordLength = "";
+            if ((checkboxWGMinWordLength.Checked == true) && (editWGMinWordLength.Text != "")) minWordLength = " --minwordlength " + editWGMinWordLength.Text;
+
+            string maxWordLength = "";
+            if ((checkboxWGMaxWordLength.Checked == true) && (editWGMaxWordLength.Text != "")) maxWordLength = " --maxwordlength " + editWGMaxWordLength.Text;
+
+            commandDlg.textBoxCommand.Text = "\"" + editSWordlistGenerator.Text + "\" --number " + editWGNumber.Text + " --markov \"" + editWGMarkovFile.Text + "\" --wordmap \"" + editWGWordlistMapFile.Text + "\" --output \"" + editWGOutputFile.Text + "\"" + weight + threads + minWordLength + maxWordLength;
+
+            commandDlg.Show();
+        }
+
+        private void buttonMCCommand_Click(object sender, EventArgs e)
+        {
+            Point p = new Point(this.Left + this.Width / 2 - commandDlg.Width / 2, this.Top + this.Height / 2 - commandDlg.Height / 2);
+            commandDlg.Location = p;
+
+            commandDlg.textBoxCommand.Text = "\"" + editSMarkovChainThing.Text + "\" --wordlist \"" + editMCTWordlist.Text + "\" --output \"" + editMCTOutput.Text + "\"";
+
+            commandDlg.Show();
+        }
+
+        private void buttonWMCommand_Click(object sender, EventArgs e)
+        {
+            Point p = new Point(this.Left + this.Width / 2 - commandDlg.Width / 2, this.Top + this.Height / 2 - commandDlg.Height / 2);
+            commandDlg.Location = p;
+
+            commandDlg.textBoxCommand.Text = "\"" + editSWordlistMapper.Text + "\" --wordlist \"" + editWMWordlist.Text + "\" --output \"" + editWMOutput.Text + "\"";
+
+            commandDlg.Show();
         }
     }
 

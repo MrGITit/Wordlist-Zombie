@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonWGCommand = new System.Windows.Forms.Button();
             this.checkboxWGMaxWordLength = new System.Windows.Forms.CheckBox();
             this.checkboxWGMinWordLength = new System.Windows.Forms.CheckBox();
             this.editWGMaxWordLength = new System.Windows.Forms.TextBox();
@@ -53,6 +54,7 @@
             this.editWGMarkovFile = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.buttonMCCommand = new System.Windows.Forms.Button();
             this.buttonMCTGenerate = new System.Windows.Forms.Button();
             this.buttonMCTOutputBrowse = new System.Windows.Forms.Button();
             this.editMCTOutput = new System.Windows.Forms.TextBox();
@@ -61,6 +63,7 @@
             this.editMCTWordlist = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.buttonWMCommand = new System.Windows.Forms.Button();
             this.buttonWMGenerate = new System.Windows.Forms.Button();
             this.buttonWMOutputBrowse = new System.Windows.Forms.Button();
             this.editWMOutput = new System.Windows.Forms.TextBox();
@@ -123,6 +126,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.buttonWGCommand);
             this.tabPage1.Controls.Add(this.checkboxWGMaxWordLength);
             this.tabPage1.Controls.Add(this.checkboxWGMinWordLength);
             this.tabPage1.Controls.Add(this.editWGMaxWordLength);
@@ -148,6 +152,16 @@
             this.tabPage1.Size = new System.Drawing.Size(663, 256);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Wordlist Generator";
+            // 
+            // buttonWGCommand
+            // 
+            this.buttonWGCommand.Location = new System.Drawing.Point(603, 208);
+            this.buttonWGCommand.Name = "buttonWGCommand";
+            this.buttonWGCommand.Size = new System.Drawing.Size(50, 40);
+            this.buttonWGCommand.TabIndex = 30;
+            this.buttonWGCommand.Text = "cmd?";
+            this.buttonWGCommand.UseVisualStyleBackColor = true;
+            this.buttonWGCommand.Click += new System.EventHandler(this.buttonWGCommand_Click);
             // 
             // checkboxWGMaxWordLength
             // 
@@ -373,6 +387,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.buttonMCCommand);
             this.tabPage2.Controls.Add(this.buttonMCTGenerate);
             this.tabPage2.Controls.Add(this.buttonMCTOutputBrowse);
             this.tabPage2.Controls.Add(this.editMCTOutput);
@@ -387,6 +402,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Markov Chain Thing";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // buttonMCCommand
+            // 
+            this.buttonMCCommand.Location = new System.Drawing.Point(603, 66);
+            this.buttonMCCommand.Name = "buttonMCCommand";
+            this.buttonMCCommand.Size = new System.Drawing.Size(50, 40);
+            this.buttonMCCommand.TabIndex = 31;
+            this.buttonMCCommand.Text = "cmd?";
+            this.buttonMCCommand.UseVisualStyleBackColor = true;
+            this.buttonMCCommand.Click += new System.EventHandler(this.buttonMCCommand_Click);
             // 
             // buttonMCTGenerate
             // 
@@ -463,6 +488,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.buttonWMCommand);
             this.tabPage3.Controls.Add(this.buttonWMGenerate);
             this.tabPage3.Controls.Add(this.buttonWMOutputBrowse);
             this.tabPage3.Controls.Add(this.editWMOutput);
@@ -476,6 +502,16 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Wordlist Mapper";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // buttonWMCommand
+            // 
+            this.buttonWMCommand.Location = new System.Drawing.Point(603, 66);
+            this.buttonWMCommand.Name = "buttonWMCommand";
+            this.buttonWMCommand.Size = new System.Drawing.Size(50, 40);
+            this.buttonWMCommand.TabIndex = 31;
+            this.buttonWMCommand.Text = "cmd?";
+            this.buttonWMCommand.UseVisualStyleBackColor = true;
+            this.buttonWMCommand.Click += new System.EventHandler(this.buttonWMCommand_Click);
             // 
             // buttonWMGenerate
             // 
@@ -706,7 +742,7 @@
             this.label14.TabIndex = 1;
             this.label14.Text = "Bring your wordlists back to life with Wordlist Zombie!\r\nWordlist Zombie uses Mar" +
     "kov Chains, and\r\nConsonant / Vowel maps to generate wordlists.\r\n\r\nCoded by: Phil" +
-    "lyStyle1026\r\n\r\nVersion: 1.0.4-alpha";
+    "lyStyle1026\r\n\r\nVersion: 1.0.5-alpha";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label13
@@ -789,7 +825,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(572, 371);
             this.Name = "Form1";
-            this.Text = "Wordlist Zombie GUI v1.0.4-alpha";
+            this.Text = "Wordlist Zombie GUI v1.0.5-alpha";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -877,5 +913,8 @@
         private LinkLabel linkLabel1;
         private Label label14;
         private Label label13;
+        private Button buttonWGCommand;
+        private Button buttonMCCommand;
+        private Button buttonWMCommand;
     }
 }

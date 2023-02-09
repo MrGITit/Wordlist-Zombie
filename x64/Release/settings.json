@@ -1,0 +1,21 @@
+{
+  "jsonEditWGMarkovFile": "C:\\wordlists\\rockyou.txt.output.markov.txt",
+  "jsonEditWGWordlistMapFile": "C:\\wordlists\\rockyou.txt.wordmap.txt",
+  "jsonEditWGOutputFile": "D:\\wordlists\\rockyou.txt.output.txt",
+  "jsonEditWGNumber": "100000",
+  "jsonEditWGThreads": "50",
+  "jsonCheckboxWGMinWordLength": false,
+  "jsonCheckboxWGMaxWordLength": false,
+  "jsonEditWGMinWordLength": "",
+  "jsonEditWGMaxWordLength": "",
+  "jsonRadioButtonWeightedOutput": false,
+  "jsonRadioButtonHalfWeightedOutput": false,
+  "jsonRadioButtonUnweightedOutput": true,
+  "jsonEditMCTWordlist": "",
+  "jsonEditMCTOutput": "",
+  "jsonEditWMWordlist": "",
+  "jsonEditWMOutput": "",
+  "jsonEditSWordlistGenerator": "C:\\Users\\Owner\\Documents\\Dev\\cpp\\Wordlist Zombie\\Wordlist-Zombie\\x64\\Release\\WordlistGenerator.exe",
+  "jsonEditSMarkovChainThing": "C:\\Users\\Owner\\Documents\\Dev\\cpp\\Wordlist Zombie\\Wordlist-Zombie\\x64\\Release\\MarkovChainThing.exe",
+  "jsonEditSWordlistMapper": "C:\\Users\\Owner\\Documents\\Dev\\cpp\\Wordlist Zombie\\Wordlist-Zombie\\x64\\Release\\WordlistMapper.exe"
+}
