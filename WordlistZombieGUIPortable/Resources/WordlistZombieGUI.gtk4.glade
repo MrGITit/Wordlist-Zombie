@@ -1,8 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
+  <object class="GtkWindow" id="commandWindow">
+    <property name="resizable">0</property>
+    <property name="modal">1</property>
+    <property name="child">
+      <object class="GtkFixed">
+        <child>
+          <object class="GtkLabel">
+            <layout>
+              <property name="transform">translate(255, 12)</property>
+            </layout>
+            <property name="label" translatable="1">Command</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans 20"></attribute>
+            </attributes>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonCommandClose">
+            <layout>
+              <property name="transform">translate(533, 144)</property>
+            </layout>
+            <property name="label" translatable="1">Close</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="focusable">1</property>
+            <property name="receives-default">1</property>
+            <property name="margin-end">20</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonCommandClose_clicked_cb" swapped="no"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonCommandCopyToClipboard">
+            <layout>
+              <property name="transform">translate(245, 144)</property>
+            </layout>
+            <property name="label" translatable="1">Copy To Clipboard</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="focusable">1</property>
+            <property name="receives-default">1</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonCommandCopyToClipboard_clicked_cb" swapped="no"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <layout>
+              <property name="transform">translate(0, 52)</property>
+            </layout>
+            <property name="width-request">612</property>
+            <property name="height-request">80</property>
+            <property name="focusable">1</property>
+            <property name="margin-start">20</property>
+            <property name="margin-end">21</property>
+            <property name="child">
+              <object class="GtkTextView" id="textViewCommand">
+                <property name="focusable">1</property>
+                <property name="editable">0</property>
+                <property name="wrap-mode">word-char</property>
+                <property name="left-margin">10</property>
+                <property name="right-margin">10</property>
+                <property name="top-margin">10</property>
+                <property name="bottom-margin">10</property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
   <object class="GtkWindow" id="mainWindow">
-    <property name="title" translatable="1">Wordlist Zombie GUI v1.0.4-alpha</property>
+    <property name="title" translatable="1">Wordlist Zombie GUI v1.0.5-alpha</property>
     <property name="resizable">0</property>
     <property name="child">
       <object class="GtkFixed" id="fixed1">
@@ -208,7 +279,7 @@
                         <property name="label" translatable="1">Min Word Length:</property>
                         <property name="height-request">34</property>
                         <property name="focusable">1</property>
-                        <signal name="toggled" handler="checkboxWFMinWordLength_toggled_cb" swapped="no"/>
+                        <signal name="toggled" handler="checkboxWGMinWordLength_toggled_cb" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -244,6 +315,19 @@
                         <property name="focusable">1</property>
                         <property name="opacity">0.5000000002235174</property>
                         <property name="editable">0</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWGCommand">
+                        <layout>
+                          <property name="transform">translate(642, 265)</property>
+                        </layout>
+                        <property name="label" translatable="1">cmd?</property>
+                        <property name="width-request">61</property>
+                        <property name="height-request">54</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWGCommand_clicked_cb" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -335,6 +419,19 @@
                         <signal name="clicked" handler="buttonMCGenerate_clicked_cb" swapped="no"/>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkButton" id="buttonMCCommand">
+                        <layout>
+                          <property name="transform">translate(642, 95)</property>
+                        </layout>
+                        <property name="label" translatable="1">cmd?</property>
+                        <property name="width-request">61</property>
+                        <property name="height-request">54</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonMCCommand_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
                   </object>
                 </property>
                 <property name="tab">
@@ -422,6 +519,19 @@
                         <property name="focusable">1</property>
                         <property name="receives-default">1</property>
                         <signal name="clicked" handler="buttonWMGenerate_clicked_cb" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="buttonWMCommand">
+                        <layout>
+                          <property name="transform">translate(642, 95)</property>
+                        </layout>
+                        <property name="label" translatable="1">cmd?</property>
+                        <property name="width-request">61</property>
+                        <property name="height-request">54</property>
+                        <property name="focusable">1</property>
+                        <property name="receives-default">1</property>
+                        <signal name="clicked" handler="buttonWMCommand_clicked_cb" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -622,7 +732,7 @@
                         </layout>
                         <property name="width-request">159</property>
                         <property name="height-request">20</property>
-                        <property name="label" translatable="1">Version: 1.0.4-alpha</property>
+                        <property name="label" translatable="1">Version: 1.0.5-alpha</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 12"></attribute>
                         </attributes>

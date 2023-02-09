@@ -6,6 +6,7 @@
 GtkApplication *app;
 GObject *window;
 GObject *selectTerminalWindow;
+GObject *commandWindow;
 GtkWidget *fixed1;
 
 // Wordlist Generator Edits
@@ -39,8 +40,12 @@ GtkWidget *editSMarkovChainThing;
 GtkWidget *editSWordlistMapper;
 GtkWidget *comboSelectTerminal;
 
+// Command Window
+GtkWidget *textViewCommand;
+
 static void on_window_close_request(GtkWidget *w);
 static void on_selectTerminalWindow_close_request(GtkWidget *w);
+static void on_commandWindow_close_request(GtkWidget *w);
 
 void buttonWGMarkovChainFileOpen_clicked_cb(GtkButton *b);
 void buttonWGWordlistMapFileOpen_clicked_cb(GtkButton *b);
@@ -64,15 +69,20 @@ static void on_SWordlistGeneratorOpen_response(GtkDialog *dialog, int response);
 static void on_SMarkovChainThingOpen_response(GtkDialog *dialog, int response);
 static void on_SWordlistMapperOpen_response(GtkDialog *dialog, int response);
 
-void checkboxWFMinWordLength_toggled_cb(GtkCheckButton *cb);
+void checkboxWGMinWordLength_toggled_cb(GtkCheckButton *cb);
 void checkboxWGMaxWordLength_toggled_cb(GtkCheckButton *cb);
 void buttonWGGenerate_clicked_cb(GtkButton *b);
+void buttonWGCommand_clicked_cb(GtkButton *b);
 void buttonSTerminalCommandLineEdit_clicked_cb(GtkButton *b);
 void buttonSelectTerminalOK_clicked_cb(GtkButton *b);
 void buttonSelectTerminalCancel_clicked_cb(GtkButton *b);
 void buttonMCGenerate_clicked_cb(GtkButton *b);
+void buttonMCCommand_clicked_cb(GtkButton *b);
 void buttonWMGenerate_clicked_cb(GtkButton *b);
+void buttonWMCommand_clicked_cb(GtkButton *b);
 void buttonSResetToDefault_clicked_cb(GtkButton *b);
+void buttonCommandCopyToClipboard_clicked_cb(GtkButton *b);
+void buttonCommandClose_clicked_cb(GtkButton *b);
 
 // JSON Funcions
 void writeJSONToFile(void);
@@ -87,9 +97,11 @@ static void activate(GtkApplication *app, gpointer user_data)
     window = gtk_builder_get_object(builder, "mainWindow");
     gtk_window_set_application(GTK_WINDOW(window), app);
     selectTerminalWindow = gtk_builder_get_object(builder, "selectTerminalWindow");
+    commandWindow = gtk_builder_get_object(builder, "commandWindow");
 
     g_signal_connect(window, "close-request", G_CALLBACK(on_window_close_request), NULL);
     g_signal_connect(selectTerminalWindow, "close-request", G_CALLBACK(on_selectTerminalWindow_close_request), NULL);
+    g_signal_connect(commandWindow, "close-request", G_CALLBACK(on_commandWindow_close_request), NULL);
 
     fixed1 = GTK_WIDGET(gtk_builder_get_object(builder, "fixed1"));
     editWGMarkovChainFile = GTK_WIDGET(gtk_builder_get_object(builder, "editWGMarkovChainFile"));
@@ -113,6 +125,7 @@ static void activate(GtkApplication *app, gpointer user_data)
     editSMarkovChainThing = GTK_WIDGET(gtk_builder_get_object(builder, "editSMarkovChainThing"));
     editSWordlistMapper = GTK_WIDGET(gtk_builder_get_object(builder, "editSWordlistMapper"));
     comboSelectTerminal = GTK_WIDGET(gtk_builder_get_object(builder, "comboSelectTerminal"));
+    textViewCommand = GTK_WIDGET(gtk_builder_get_object(builder, "textViewCommand"));
 
     // Load Cool image
     GtkWidget *picture1 = gtk_picture_new_for_filename("./Resources/WordlistZombie.png");
@@ -162,6 +175,12 @@ static void on_window_close_request(GtkWidget *w)
 }
 
 static void on_selectTerminalWindow_close_request(GtkWidget *w)
+{
+    gtk_widget_hide(w);
+    return;
+}
+
+static void on_commandWindow_close_request(GtkWidget *w)
 {
     gtk_widget_hide(w);
     return;
@@ -430,7 +449,7 @@ static void on_SWordlistMapperOpen_response(GtkDialog *dialog, int response)
 //
 ////////////////////////////////////////////////////////////////////////////
 
-void checkboxWFMinWordLength_toggled_cb(GtkCheckButton *cb)
+void checkboxWGMinWordLength_toggled_cb(GtkCheckButton *cb)
 {
     if (gtk_check_button_get_active(cb))
     {
@@ -532,6 +551,76 @@ void buttonWGGenerate_clicked_cb(GtkButton *b)
     return;
 }
 
+void buttonWGCommand_clicked_cb(GtkButton *b)
+{
+    char formatbuff[4096];
+
+    char *format = "\"%s\" --number %s --markov \"%s\" --wordmap \"%s\" --output \"%s\"";
+
+    GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(editSWordlistGenerator));
+    char *pathWordlistGenerator = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editWGNumber));
+    char *wGNumber = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editWGMarkovChainFile));
+    char *wGMarkovChainFile = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editWGWordlistMapFile));
+    char *wGWordlistMapFile = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editWGOutputFile));
+    char *wGOutputFile = (char *)gtk_entry_buffer_get_text(buffer);
+
+    sprintf(formatbuff, format, pathWordlistGenerator, wGNumber, wGMarkovChainFile, wGWordlistMapFile, wGOutputFile);
+
+    // Threads
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editWGThreads));
+    char *wGThreads = (char *)gtk_entry_buffer_get_text(buffer);
+
+    if (strcmp(wGThreads, "50") != 0)
+    {
+        strcat(formatbuff, " --threads ");
+        strcat(formatbuff, wGThreads);
+    }
+
+    // Min Word Length
+    if (gtk_check_button_get_active(GTK_CHECK_BUTTON(checkboxWGMinWordLength)))
+    {
+        // Min Word Length is checked!
+        buffer = gtk_entry_get_buffer(GTK_ENTRY(editWGMinWordLength));
+        char *wGMinWordLength = (char *)gtk_entry_buffer_get_text(buffer);
+        strcat(formatbuff, " --minwordlength ");
+        strcat(formatbuff, wGMinWordLength);
+    }
+
+    // Max Word Length
+    if (gtk_check_button_get_active(GTK_CHECK_BUTTON(checkboxWGMaxWordLength)))
+    {
+        // Max Word Length is checked!
+        buffer = gtk_entry_get_buffer(GTK_ENTRY(editWGMaxWordLength));
+        char *wGMaxWordLength = (char *)gtk_entry_buffer_get_text(buffer);
+        strcat(formatbuff, " --maxwordlength ");
+        strcat(formatbuff, wGMaxWordLength);
+    }
+
+    if (gtk_check_button_get_active(GTK_CHECK_BUTTON(radioButtonWGHalfWeighted)))
+    {
+        strcat(formatbuff, " --halfweighted");
+    }
+
+    if (gtk_check_button_get_active(GTK_CHECK_BUTTON(radioButtonWGUnweighted)))
+    {
+        strcat(formatbuff, " --unweighted");
+    }
+
+    GtkTextBuffer *buffer2 = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textViewCommand));
+    gtk_text_buffer_set_text(buffer2, formatbuff, -1);
+
+    gtk_widget_show(GTK_WIDGET(commandWindow));
+    return;
+}
+
 void buttonSTerminalCommandLineEdit_clicked_cb(GtkButton *b)
 {
     gtk_widget_show(GTK_WIDGET(selectTerminalWindow));
@@ -577,6 +666,30 @@ void buttonMCGenerate_clicked_cb(GtkButton *b)
     return;
 }
 
+void buttonMCCommand_clicked_cb(GtkButton *b)
+{
+    char formatbuff[4096];
+
+    char *format = "\"%s\" --wordlist \"%s\" --output \"%s\"";
+    
+    GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(editSMarkovChainThing));
+    char *pathMarkovChain = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editMCWordlist));
+    char *mCWordlist = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editMCOutput));
+    char *mCOutput = (char *)gtk_entry_buffer_get_text(buffer);
+
+    sprintf(formatbuff, format, pathMarkovChain, mCWordlist, mCOutput);
+
+    GtkTextBuffer *buffer2 = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textViewCommand));
+    gtk_text_buffer_set_text(buffer2, formatbuff, -1);
+
+    gtk_widget_show(GTK_WIDGET(commandWindow));
+    return;
+}
+
 void buttonWMGenerate_clicked_cb(GtkButton *b)
 {
     char formatbuff[4096];
@@ -601,6 +714,29 @@ void buttonWMGenerate_clicked_cb(GtkButton *b)
     return;
 }
 
+void buttonWMCommand_clicked_cb(GtkButton *b)
+{
+    char formatbuff[4096];
+
+    char *format = "\"%s\" --wordlist \"%s\" --output \"%s\"";
+    GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(editSWordlistMapper));
+    char *pathWordlistMapper = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editWMWordlist));
+    char *wMWordlist = (char *)gtk_entry_buffer_get_text(buffer);
+
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(editWMOutput));
+    char *wMOutput = (char *)gtk_entry_buffer_get_text(buffer);
+
+    sprintf(formatbuff, format, pathWordlistMapper, wMWordlist, wMOutput);
+
+    GtkTextBuffer *buffer2 = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textViewCommand));
+    gtk_text_buffer_set_text(buffer2, formatbuff, -1);
+
+    gtk_widget_show(GTK_WIDGET(commandWindow));
+    return;
+}
+
 void buttonSResetToDefault_clicked_cb(GtkButton *b)
 {
     // Set Default Settings
@@ -612,6 +748,22 @@ void buttonSResetToDefault_clicked_cb(GtkButton *b)
     gtk_entry_buffer_set_text(buffer, "./MarkovChainThing", -1);
     buffer = gtk_entry_get_buffer(GTK_ENTRY(editSWordlistMapper));
     gtk_entry_buffer_set_text(buffer, "./WordlistMapper", -1);
+    return;
+}
+
+void buttonCommandCopyToClipboard_clicked_cb(GtkButton *b)
+{
+    GtkTextIter start, end;
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textViewCommand));
+    gtk_text_buffer_get_start_iter (buffer, &start);
+    gtk_text_buffer_get_end_iter (buffer, &end);
+    gdk_clipboard_set_text(gdk_display_get_clipboard(gdk_display_get_default()), gtk_text_buffer_get_text (buffer, &start, &end, false));
+    return;
+}
+
+void buttonCommandClose_clicked_cb(GtkButton *b)
+{
+    gtk_widget_hide(GTK_WIDGET(commandWindow));
     return;
 }
 
@@ -715,7 +867,8 @@ void writeJSONToFile(void)
 void loadJSONFromFile(void)
 {
     JSON_Value *root_value = json_parse_file("./Resources/settings.json");
-    if (root_value == NULL) return;
+    if (root_value == NULL)
+        return;
 
     char *wGMarkovChainFile = (char *)json_object_get_string(json_object(root_value), "editWGMarkovChainFile");
     char *wGWordlistMapFile = (char *)json_object_get_string(json_object(root_value), "editWGWordlistMapFile");
@@ -773,7 +926,8 @@ void loadJSONFromFile(void)
     gtk_entry_buffer_set_text(buffer, sMarkovChainThing, -1);
     buffer = gtk_entry_get_buffer(GTK_ENTRY(editSWordlistMapper));
     gtk_entry_buffer_set_text(buffer, sWordlistMapper, -1);
-    
+
     json_value_free(root_value);
     return;
 }
+

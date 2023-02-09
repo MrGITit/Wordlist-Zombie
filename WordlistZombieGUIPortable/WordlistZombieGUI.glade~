@@ -2,9 +2,93 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkWindow" id="commandWindow">
+    <property name="can-focus">False</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <child>
+      <object class="GtkFixed">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Command</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans 20"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">255</property>
+            <property name="y">12</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonCommandClose">
+            <property name="label" translatable="yes">Close</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="margin-end">20</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonCommandClose_clicked_cb" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">533</property>
+            <property name="y">144</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonCommandCopyToClipboard">
+            <property name="label" translatable="yes">Copy To Clipboard</property>
+            <property name="width-request">100</property>
+            <property name="height-request">34</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="margin-bottom">20</property>
+            <signal name="clicked" handler="buttonCommandCopyToClipboard_clicked_cb" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">245</property>
+            <property name="y">144</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="width-request">612</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="margin-start">20</property>
+            <property name="margin-end">21</property>
+            <property name="shadow-type">in</property>
+            <child>
+              <object class="GtkTextView" id="textViewCommand">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="editable">False</property>
+                <property name="wrap-mode">word-char</property>
+                <property name="left-margin">10</property>
+                <property name="right-margin">10</property>
+                <property name="top-margin">10</property>
+                <property name="bottom-margin">10</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="y">52</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkWindow" id="mainWindow">
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">Wordlist Zombie GUI v1.0.4-alpha</property>
+    <property name="title" translatable="yes">Wordlist Zombie GUI v1.0.5-alpha</property>
     <property name="resizable">False</property>
     <child>
       <object class="GtkFixed" id="fixed1">
@@ -258,7 +342,7 @@
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
                     <property name="draw-indicator">True</property>
-                    <signal name="toggled" handler="checkboxWFMinWordLength_toggled_cb" swapped="no"/>
+                    <signal name="toggled" handler="checkboxWGMinWordLength_toggled_cb" swapped="no"/>
                   </object>
                   <packing>
                     <property name="x">391</property>
@@ -306,6 +390,21 @@
                   <packing>
                     <property name="x">537</property>
                     <property name="y">174</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWGCommand">
+                    <property name="label" translatable="yes">cmd?</property>
+                    <property name="width-request">61</property>
+                    <property name="height-request">54</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWGCommand_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">642</property>
+                    <property name="y">265</property>
                   </packing>
                 </child>
               </object>
@@ -412,6 +511,21 @@
                   </object>
                   <packing>
                     <property name="x">289</property>
+                    <property name="y">95</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonMCCommand">
+                    <property name="label" translatable="yes">cmd?</property>
+                    <property name="width-request">61</property>
+                    <property name="height-request">54</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonMCCommand_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">642</property>
                     <property name="y">95</property>
                   </packing>
                 </child>
@@ -523,6 +637,21 @@
                   </object>
                   <packing>
                     <property name="x">289</property>
+                    <property name="y">95</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="buttonWMCommand">
+                    <property name="label" translatable="yes">cmd?</property>
+                    <property name="width-request">61</property>
+                    <property name="height-request">54</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buttonWMCommand_clicked_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="x">642</property>
                     <property name="y">95</property>
                   </packing>
                 </child>
@@ -873,7 +1002,7 @@ Consonant / Vowel maps to generate wordlists.</property>
               <item id="&lt;Enter ID&gt;" translatable="yes">gnome-terminal -- bash -c '%s; exec bash'</item>
               <item translatable="yes">xterm -hold -e %s</item>
               <item translatable="yes">konsole --hold -e %s</item>
-              <item translatable="yes">terminator -x '%s; bash'</item>
+              <item translatable="yes">terminator -e '%s; bash'</item>
             </items>
           </object>
           <packing>
